@@ -1,4 +1,4 @@
-package SKRookie.moamoa.api.service;
+package SKRookie.moamoa.api.service.user;
 
 import SKRookie.moamoa.api.entity.user.User;
 import SKRookie.moamoa.api.repository.user.UserRepository;

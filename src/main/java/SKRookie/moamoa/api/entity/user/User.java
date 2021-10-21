@@ -1,5 +1,7 @@
 package SKRookie.moamoa.api.entity.user;
 
+import SKRookie.moamoa.api.entity.study.Study;
+import SKRookie.moamoa.api.entity.study.StudyJoin;
 import SKRookie.moamoa.oauth.entity.ProviderType;
 import SKRookie.moamoa.oauth.entity.RoleType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,6 +14,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -74,6 +77,12 @@ public class User {
     @Column(name = "MODIFIED_AT")
     @NotNull
     private LocalDateTime modifiedAt;
+
+    @OneToMany(mappedBy = "studyUser")
+    private List<Study> studies;
+
+    @OneToMany(mappedBy = "studyJoinUser")
+    private List<StudyJoin> studyJoins;
 
     public User(
             @NotNull @Size(max = 64) String userId,
