@@ -8,7 +8,6 @@ plugins {
 
 group = 'SK-Rookie'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 configurations {
 	compileOnly {
@@ -19,7 +18,7 @@ configurations {
 	}
 }
 
-def queryDslDir = "$buildDir/generated/sources/annotationProcessor/java/main"
+def queryDslDir = "$buildDir/generated/sources/annotationProcessor/java/main" as Object
 
 querydsl {
 	jpa = true
@@ -27,11 +26,11 @@ querydsl {
 }
 
 sourceSets {
-	main {
+	main(({
 		java {
 			srcDir queryDslDir
 		}
-	}
+	} as String))
 }
 
 compileQuerydsl {
@@ -82,11 +81,11 @@ querydsl {
 	querydslDefault = true
 }
 sourceSets {
-	main {
+	main(({
 		java {
 			srcDirs += file(querydslSrcDir)
 		}
-	}
+	} as String))
 }
 idea {
 	module {
