@@ -3,7 +3,6 @@ package SKRookie.moamoa.api.service.study;
 import SKRookie.moamoa.api.dto.StudyDto;
 import SKRookie.moamoa.api.dto.StudySearchCondition;
 import SKRookie.moamoa.api.entity.study.Study;
-import SKRookie.moamoa.api.repository.study.StudyCustomRepositoryImpl;
 import SKRookie.moamoa.api.repository.study.StudyRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,8 +20,6 @@ import java.util.stream.Collectors;
 public class StudyService {
     private final StudyRepository studyRepository;
 
-    private final StudyCustomRepositoryImpl studyCustomRepository;
-
     private final ModelMapper modelMapper;
 
     public Optional<StudyDto> addStudy(StudyDto studyDto) {
@@ -31,11 +28,11 @@ public class StudyService {
         return Optional.of(modelMapper.map(savedStudy, StudyDto.class));
     }
 
-    public Page<StudyDto> getStudy(StudySearchCondition condition, Pageable pageable) {
-        Page<Study> search = studyCustomRepository.search(condition, pageable);
-
-        List<StudyDto> studyDtos = search.stream().map(study -> modelMapper.map(study, StudyDto.class)).collect(Collectors.toList());
-
-        return new PageImpl<>(studyDtos, pageable, search.getTotalElements());
-    }
+//    public Page<StudyDto> getStudy(StudySearchCondition condition, Pageable pageable) {
+//        Page<Study> search = studyCustomRepository.search(condition, pageable);
+//
+//        List<StudyDto> studyDtos = search.stream().map(study -> modelMapper.map(study, StudyDto.class)).collect(Collectors.toList());
+//
+//        return new PageImpl<>(studyDtos, pageable, search.getTotalElements());
+//    }
 }
