@@ -4,7 +4,6 @@ import SKRookie.moamoa.api.dto.StudyDto;
 import SKRookie.moamoa.api.dto.StudySearchCondition;
 import SKRookie.moamoa.api.enums.StudyType;
 import SKRookie.moamoa.api.service.study.StudyService;
-import SKRookie.moamoa.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,17 +23,18 @@ public class StudyController {
 
     private final StudyService studyService;
 
-//    @GetMapping()
-//    public ResponseEntity<Page<StudyDto>> search(StudySearchCondition condition, Pageable pageable) {
-//
-//        Page<StudyDto> studyDtoPage = studyService.getStudy(condition, pageable);
-//
-//        if (studyDtoPage.hasContent()) {
-//            return ResponseEntity.status(HttpStatus.OK).body(studyDtoPage);
-//        } else {
-//            return ResponseEntity.noContent().build();
-//        }
-//    }
+
+    @GetMapping()
+    public ResponseEntity<Page<StudyDto>> search(StudySearchCondition condition, Pageable pageable) {
+
+        Page<StudyDto> studyDtoPage = studyService.getStudy(condition, pageable);
+
+        if (studyDtoPage.hasContent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(studyDtoPage);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
 
     @PostMapping
     public ResponseEntity<StudyDto> newStudy(@RequestBody @Validated StudyDto studyDto, Errors errors){
