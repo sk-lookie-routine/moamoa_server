@@ -1,5 +1,6 @@
-package SKRookie.moamoa.api.entity.study;
+package SKRookie.moamoa.api.entity.StudyJoin;
 
+import SKRookie.moamoa.api.entity.study.Study;
 import SKRookie.moamoa.api.entity.user.User;
 import SKRookie.moamoa.api.enums.JoinType;
 import SKRookie.moamoa.api.enums.StudyType;
@@ -18,23 +19,23 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "STUDYJOIN")
-public class StudyJoin {
+@Table(name = "JOIN")
+public class Join {
     @JsonIgnore
     @Id
-    @Column(name = "STUDYJOIN_SEQ")
+    @Column(name = "JOIN_SEQ")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long studyJoinSeq;
-
-    @NotNull
-    @ManyToOne(targetEntity = Study.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "STUDYSEQ", referencedColumnName = "study_seq")
-    private Study studyJoin;
+    private Long joinSeq;
 
     @NotNull
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "USERSEQ", referencedColumnName = "user_seq")
-    private User studyJoinUser;
+    @JoinColumn(name = "USER_SEQ", referencedColumnName = "user_seq")
+    private User joinUser;
+
+    @NotNull
+    @ManyToOne(targetEntity = Study.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "STUDY_SEQ", referencedColumnName = "study_seq")
+    private Study joinStudy;
 
     @NotNull
     @Enumerated(EnumType.STRING)
