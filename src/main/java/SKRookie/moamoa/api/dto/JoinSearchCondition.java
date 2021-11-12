@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class StudyJoinSearchCondition {
+public class JoinSearchCondition {
     private Long studyJoin;
 
     private Long studyJoinUser;

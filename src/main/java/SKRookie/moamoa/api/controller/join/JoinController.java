@@ -1,9 +1,9 @@
-package SKRookie.moamoa.api.controller.studyjoin;
+package SKRookie.moamoa.api.controller.join;
 
 import SKRookie.moamoa.api.dto.StudyDto;
-import SKRookie.moamoa.api.dto.joinDto;
+import SKRookie.moamoa.api.dto.JoinDto;
 import SKRookie.moamoa.api.dto.StudySearchCondition;
-import SKRookie.moamoa.api.service.studyjoin.StudyJoinService;
+import SKRookie.moamoa.api.service.join.JoinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/studyJoin")
+@RequestMapping("/api/join")
 @RequiredArgsConstructor
-public class StudyJoinController {
+public class JoinController {
     
-    private final StudyJoinService studyJoinService;
+    private final JoinService joinService;
 
 
     @GetMapping()
@@ -29,12 +29,12 @@ public class StudyJoinController {
     }
 
     @PostMapping
-    public ResponseEntity<joinDto> newStudy(@RequestBody @Validated joinDto joinDto, Errors errors){
+    public ResponseEntity<JoinDto> newStudy(@RequestBody @Validated JoinDto joinDto, Errors errors){
         if(errors.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<joinDto> optionalStudyJoinDto = studyJoinService.addStudyJoin(joinDto);
+        Optional<JoinDto> optionalStudyJoinDto = joinService.addStudyJoin(joinDto);
 
         return  optionalStudyJoinDto.map(studyJoin -> ResponseEntity.status(HttpStatus.CREATED).body(studyJoin)).orElseGet(() -> ResponseEntity.badRequest().build());
     }

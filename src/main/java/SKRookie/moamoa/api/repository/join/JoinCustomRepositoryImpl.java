@@ -1,6 +1,6 @@
 package SKRookie.moamoa.api.repository.join;
 
-import SKRookie.moamoa.api.dto.joinSearchCondition;
+import SKRookie.moamoa.api.dto.JoinSearchCondition;
 import SKRookie.moamoa.api.entity.join.Join;
 import SKRookie.moamoa.api.enums.JoinType;
 import SKRookie.moamoa.utils.PagingUtil;
@@ -15,19 +15,19 @@ import static SKRookie.moamoa.api.entity.join.QJoin.join;
 
 
 @Repository
-public class StudyJoinCustomRepositoryImpl implements StudyJoinCustomRepository {
+public class JoinCustomRepositoryImpl implements JoinCustomRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
     private final PagingUtil pagingUtil;
 
-    public StudyJoinCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory, PagingUtil pagingUtil) {
+    public JoinCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory, PagingUtil pagingUtil) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.pagingUtil = pagingUtil;
     }
 
     @Override
-    public Page<Join> search(joinSearchCondition condition, Pageable pageable) {
+    public Page<Join> search(JoinSearchCondition condition, Pageable pageable) {
         JPQLQuery<Join> query = jpaQueryFactory       // 1)
                 .selectFrom(join)
                 .where(

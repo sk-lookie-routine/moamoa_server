@@ -1,9 +1,8 @@
-package SKRookie.moamoa.api.entity.StudyJoin;
+package SKRookie.moamoa.api.entity.join;
 
 import SKRookie.moamoa.api.entity.study.Study;
 import SKRookie.moamoa.api.entity.user.User;
 import SKRookie.moamoa.api.enums.JoinType;
-import SKRookie.moamoa.api.enums.StudyType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,14 +11,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "JOIN")
+@Table(name = "JOINS")
 public class Join {
     @JsonIgnore
     @Id

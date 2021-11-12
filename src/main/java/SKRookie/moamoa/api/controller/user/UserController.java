@@ -4,6 +4,7 @@ import SKRookie.moamoa.api.entity.user.User;
 import SKRookie.moamoa.api.service.user.UserService;
 import SKRookie.moamoa.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,11 +18,13 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping()
-    public ApiResponse getUser() {
-        Object principal1 = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public ApiResponse getUsers() {
 
-        User user = userService.getUser(principal.getUsername());
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+
+        String username = loggedInUser.getName();
+
+        User user = userService.getUser(username);
 
         return ApiResponse.success("user", user);
     }

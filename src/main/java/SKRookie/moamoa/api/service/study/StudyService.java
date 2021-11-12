@@ -26,7 +26,8 @@ public class StudyService {
     private final ModelMapper modelMapper;
 
     public Optional<StudyDto> addStudy(StudyDto studyDto) {
-        Study savedStudy = studyRepository.save(modelMapper.map(studyDto, Study.class));
+        Study map = modelMapper.map(studyDto, Study.class);
+        Study savedStudy = studyRepository.save(map);
 
         return Optional.of(modelMapper.map(savedStudy, StudyDto.class));
     }

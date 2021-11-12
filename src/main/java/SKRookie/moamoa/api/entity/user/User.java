@@ -1,7 +1,6 @@
 package SKRookie.moamoa.api.entity.user;
 
-import SKRookie.moamoa.api.entity.study.Study;
-import SKRookie.moamoa.api.entity.study.StudyJoin;
+import SKRookie.moamoa.api.entity.join.Join;
 import SKRookie.moamoa.oauth.entity.ProviderType;
 import SKRookie.moamoa.oauth.entity.RoleType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -65,6 +64,11 @@ public class User {
     @NotNull
     private ProviderType providerType;
 
+    @Column(name = "IMAGE", length = 512)
+    @NotNull
+    @Size(max = 512)
+    private String image;
+
     @Column(name = "ROLE_TYPE", length = 20)
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -78,32 +82,27 @@ public class User {
     @NotNull
     private LocalDateTime modifiedAt;
 
-    @OneToMany(mappedBy = "studyUser")
-    private List<Study> studies;
-
-    @OneToMany(mappedBy = "studyJoinUser")
-    private List<StudyJoin> studyJoins;
+    @OneToMany(mappedBy = "joinUser")
+    private List<Join> userJoins;
 
     public User(
             @NotNull @Size(max = 64) String userId,
-            @NotNull @Size(max = 100) String username,
+            @NotNull @Size(max = 100) String name,
             @NotNull @Size(max = 512) String email,
-            @NotNull @Size(max = 1) String emailVerifiedYn,
-            @NotNull @Size(max = 512) String profileImageUrl,
+            @NotNull @Size(max = 1) String y,
+            @NotNull @Size(max = 512) String imageUrl,
             @NotNull ProviderType providerType,
-            @NotNull RoleType roleType,
-            @NotNull LocalDateTime createdAt,
-            @NotNull LocalDateTime modifiedAt
+            @NotNull RoleType user,
+            @NotNull LocalDateTime now
     ) {
         this.userId = userId;
-        this.username = username;
+        this.username = name;
         this.password = "NO_PASS";
         this.email = email != null ? email : "NO_EMAIL";
-        this.emailVerifiedYn = emailVerifiedYn;
-        this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
+        this.emailVerifiedYn = y;
+        this.profileImageUrl = imageUrl != null ? imageUrl : "";
         this.providerType = providerType;
-        this.roleType = roleType;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
+        this.roleType = user;
+        this.createdAt = now;
     }
 }

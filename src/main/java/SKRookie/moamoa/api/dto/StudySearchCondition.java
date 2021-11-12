@@ -12,4 +12,8 @@ public class StudySearchCondition {
     private Long userSeq;
 
     private StudyType studyType;
+
+    private String title;
+
+    private String hashTag;
 }

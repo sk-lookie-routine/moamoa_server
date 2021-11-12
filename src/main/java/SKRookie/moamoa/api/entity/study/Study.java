@@ -1,5 +1,6 @@
 package SKRookie.moamoa.api.entity.study;
 
+import SKRookie.moamoa.api.entity.join.Join;
 import SKRookie.moamoa.api.entity.user.User;
 import SKRookie.moamoa.api.enums.StudyType;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -56,6 +57,15 @@ public class Study {
     @Size(max = 512)
     private String comment;
 
+    @Column(name = "IMAGE", length = 512)
+    @NotNull
+    @Size(max = 512)
+    private String image;
+
+    @Column(name = "MEMBER_COUNT")
+    @NotNull
+    private Long memberCount;
+
     @Column(name = "CREATED_AT")
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
@@ -83,7 +93,7 @@ public class Study {
 
     @NotNull
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "USERSEQ", referencedColumnName = "user_seq")
+    @JoinColumn(name = "USER_SEQ", referencedColumnName = "user_seq")
     private User studyUser;
 
     @NotNull
@@ -93,6 +103,6 @@ public class Study {
     @ElementCollection(fetch = FetchType.LAZY)
     private Set<String> hashTags = new HashSet<>();
 
-    @OneToMany(mappedBy = "studyJoin")
-    private List<StudyJoin> studyJoins;
+    @OneToMany(mappedBy = "joinStudy")
+    private List<Join> studyJoins;
 }

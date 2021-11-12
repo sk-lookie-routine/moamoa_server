@@ -31,16 +31,23 @@ public class StudyCustomRepositoryImpl implements StudyCustomRepository{
                 .selectFrom(study)
                 .where(
                         userIdEq(condition.getUserSeq()),
-                        studyTypeEq(condition.getStudyType())
+                        studyTypeEq(condition.getStudyType()),
+                        titleInclude(condition.getTitle())
                 );
         return pagingUtil.getPageImpl(pageable, query, Study.class);
     }
     private BooleanExpression userIdEq(Long user_id) {
+
         return user_id != null ? study.studyUser.userSeq.eq(user_id) : null;
     }
 
     private BooleanExpression studyTypeEq(StudyType studyType) {
 
         return studyType != null ? study.studyType.eq(studyType) : null;
+    }
+
+    private BooleanExpression titleInclude(String title) {
+
+        return title != null ? study.title.contains(title) : null;
     }
 }

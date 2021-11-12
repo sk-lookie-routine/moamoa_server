@@ -1,10 +1,12 @@
-package SKRookie.moamoa.api.service.studyjoin;
+package SKRookie.moamoa.api.service.join;
 
 import SKRookie.moamoa.api.dto.StudyDto;
 import SKRookie.moamoa.api.dto.StudySearchCondition;
-import SKRookie.moamoa.api.dto.joinDto;
+import SKRookie.moamoa.api.dto.JoinDto;
 import SKRookie.moamoa.api.entity.join.Join;
-import SKRookie.moamoa.api.repository.join.StudyJoinRepository;
+import SKRookie.moamoa.api.entity.study.Study;
+import SKRookie.moamoa.api.entity.user.User;
+import SKRookie.moamoa.api.repository.join.JoinRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -15,18 +17,16 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class StudyJoinService {
-    private final StudyJoinRepository studyJoinRepository;
+public class JoinService {
+    private final JoinRepository joinRepository;
 
     private final ModelMapper modelMapper;
 
-    public Optional<joinDto> addStudyJoin(joinDto joinDto) {
+    public Optional<JoinDto> addStudyJoin(JoinDto joinDto) {
 
-        Join map = modelMapper.map(joinDto, Join.class);
+        Join savedStudyJoin = joinRepository.save(modelMapper.map(joinDto, Join.class));
 
-        Join savedStudyJoin = studyJoinRepository.save(map);
-
-        return Optional.of(modelMapper.map(savedStudyJoin, joinDto.class));
+        return Optional.of(modelMapper.map(savedStudyJoin, JoinDto.class));
     }
 
     public Page<StudyDto> getStudyJoin(StudySearchCondition condition, Pageable pageable) {

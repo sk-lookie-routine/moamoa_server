@@ -4,8 +4,8 @@ import SKRookie.moamoa.api.enums.JoinType;
 import lombok.Data;
 
 @Data
-public class StudyJoinDto {
-    private Long studyJoinSeq;
+public class JoinDto {
+    private Long joinSeq;
 
     private Long studySeq;
 
