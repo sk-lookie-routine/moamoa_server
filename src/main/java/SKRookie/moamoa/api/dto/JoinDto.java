@@ -12,4 +12,6 @@ public class JoinDto {
     private Long userSeq;
 
     private JoinType joinType;
+
+    private String comment;
 }

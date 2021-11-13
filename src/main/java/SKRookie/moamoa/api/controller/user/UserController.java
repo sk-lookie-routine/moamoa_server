@@ -1,31 +1,48 @@
 package SKRookie.moamoa.api.controller.user;
 
-import SKRookie.moamoa.api.entity.user.User;
+import SKRookie.moamoa.api.dto.UserDto;
+import SKRookie.moamoa.api.entity.user.UserRefreshToken;
+import SKRookie.moamoa.api.repository.user.UserRefreshTokenRepository;
+import SKRookie.moamoa.api.repository.user.UserRepository;
 import SKRookie.moamoa.api.service.user.UserService;
-import SKRookie.moamoa.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
+
+    private final UserRefreshTokenRepository userRefreshTokenRepository;
+
+    private final UserRepository userRepository;
 
     private final UserService userService;
 
     @GetMapping()
-    public ApiResponse getUsers() {
+    public ResponseEntity<UserDto>  getLoginUser(@RequestParam String token) {
 
-        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        UserRefreshToken byRefreshToken = userRefreshTokenRepository.findByRefreshToken(token);
 
-        String username = loggedInUser.getName();
+        Optional<UserDto> userDto = userService.getUser(byRefreshToken.getUserId());
 
-        User user = userService.getUser(username);
+        return userDto.map(user -> ResponseEntity.status(HttpStatus.OK).body(user)).orElseGet(() -> ResponseEntity.badRequest().build());
+    }
 
-        return ApiResponse.success("user", user);
+    @PutMapping
+    public ResponseEntity<UserDto> updateUser(@RequestBody @Validated UserDto userDto, Errors errors){
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<UserDto> updatedUser = userService.addUser(userDto);
+
+        return  updatedUser.map(user -> ResponseEntity.status(HttpStatus.OK).body(user)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 }

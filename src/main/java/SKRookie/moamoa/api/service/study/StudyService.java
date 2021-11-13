@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,6 +28,9 @@ public class StudyService {
 
     public Optional<StudyDto> addStudy(StudyDto studyDto) {
         Study map = modelMapper.map(studyDto, Study.class);
+        //수정 날짜 변경
+        map.setModifiedAt(LocalDateTime.now());
+
         Study savedStudy = studyRepository.save(map);
 
         return Optional.of(modelMapper.map(savedStudy, StudyDto.class));
@@ -38,5 +42,11 @@ public class StudyService {
         List<StudyDto> studyDtos = search.stream().map(study -> modelMapper.map(study, StudyDto.class)).collect(Collectors.toList());
 
         return new PageImpl<>(studyDtos, pageable, search.getTotalElements());
+    }
+
+    public Optional<StudyDto> deleteStudy(StudyDto studyDto) {
+        studyRepository.delete(modelMapper.map(studyDto, Study.class));
+
+        return Optional.of(studyDto);
     }
 }

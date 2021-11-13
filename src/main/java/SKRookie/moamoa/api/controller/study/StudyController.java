@@ -3,6 +3,7 @@ package SKRookie.moamoa.api.controller.study;
 import SKRookie.moamoa.api.dto.StudyDto;
 import SKRookie.moamoa.api.dto.StudySearchCondition;
 import SKRookie.moamoa.api.enums.StudyType;
+import SKRookie.moamoa.api.service.join.JoinService;
 import SKRookie.moamoa.api.service.study.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,9 @@ public class StudyController {
 
     private final StudyService studyService;
 
-    @GetMapping()
+    private final JoinService joinService;
+
+    @GetMapping
     public ResponseEntity<Page<StudyDto>> search(StudySearchCondition condition, Pageable pageable) {
 
         Page<StudyDto> studyDtoPage = studyService.getStudy(condition, pageable);
@@ -41,11 +44,34 @@ public class StudyController {
             return ResponseEntity.badRequest().build();
         }
         studyDto.setCreatedAt(LocalDateTime.now());
-        studyDto.setModifiedAt(LocalDateTime.now());
-        studyDto.setStudyType(StudyType.READY);
 
         Optional<StudyDto> optionalStudyDto = studyService.addStudy(studyDto);
 
         return  optionalStudyDto.map(study -> ResponseEntity.status(HttpStatus.CREATED).body(study)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
+
+    @PutMapping
+    public ResponseEntity<StudyDto> updateStudy(@RequestBody @Validated StudyDto studyDto, Errors errors){
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        studyDto.setModifiedAt(LocalDateTime.now());
+
+        Optional<StudyDto> optionalStudyDto = studyService.addStudy(studyDto);
+
+        return  optionalStudyDto.map(study -> ResponseEntity.status(HttpStatus.CREATED).body(study)).orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    // 연관관계 때문에 DB에서 진짜 삭제하는건 어려울 것 같음 그냥 STATUS 를 바꿈
+//    @DeleteMapping
+//    public ResponseEntity<StudyDto> deleteStudy(@RequestBody @Validated StudyDto studyDto, Errors errors){
+//        if(errors.hasErrors()) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//
+//        Optional<StudyDto> optionalStudyDto = studyService.deleteStudy(studyDto);
+//
+//        return  optionalStudyDto.map(study -> ResponseEntity.status(HttpStatus.OK).body(study)).orElseGet(() -> ResponseEntity.badRequest().build());
+//    }
 }

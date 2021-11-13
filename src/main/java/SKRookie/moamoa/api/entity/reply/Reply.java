@@ -1,8 +1,8 @@
-package SKRookie.moamoa.api.entity.join;
+package SKRookie.moamoa.api.entity.reply;
 
 import SKRookie.moamoa.api.entity.study.Study;
 import SKRookie.moamoa.api.entity.user.User;
-import SKRookie.moamoa.api.enums.JoinType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,36 +12,39 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "JOIN")
-public class Join {
+@Table(name = "REPLY")
+public class Reply {
     @JsonIgnore
     @Id
-    @Column(name = "JOIN_SEQ")
+    @Column(name = "REPLY_SEQ")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long joinSeq;
+    private Long replySeq;
 
     @NotNull
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "USER_SEQ", referencedColumnName = "user_seq")
-    private User joinUser;
+    private User replyUser;
 
     @NotNull
     @ManyToOne(targetEntity = Study.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "STUDY_SEQ", referencedColumnName = "study_seq")
-    private Study joinStudy;
+    private Study replyStudy;
 
+    @Column(name = "CREATED_AT")
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private JoinType joinType;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime createdAt;
 
-    @Column(name = "COMMENT", length = 512)
+    @Column(name = "CONTENT", length = 1024)
     @NotNull
-    @Size(max = 512)
-    private String comment;
+    @Size(max = 1024)
+    private String content;
 }
+

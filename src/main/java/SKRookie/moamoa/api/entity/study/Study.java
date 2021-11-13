@@ -1,6 +1,7 @@
 package SKRookie.moamoa.api.entity.study;
 
 import SKRookie.moamoa.api.entity.join.Join;
+import SKRookie.moamoa.api.entity.reply.Reply;
 import SKRookie.moamoa.api.entity.user.User;
 import SKRookie.moamoa.api.enums.StudyType;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -96,6 +97,18 @@ public class Study {
     @JoinColumn(name = "USER_SEQ", referencedColumnName = "user_seq")
     private User studyUser;
 
+    @Column(name = "LINK_STUDY", length = 512)
+    @Size(max = 1024)
+    private String linkStudy;
+
+    @Column(name = "LINK_NOTION", length = 512)
+    @Size(max = 1024)
+    private String linkNotion;
+
+    @Column(name = "LINK_CHAT", length = 512)
+    @Size(max = 1024)
+    private String linkChat;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private StudyType studyType;
@@ -105,4 +118,7 @@ public class Study {
 
     @OneToMany(mappedBy = "joinStudy")
     private List<Join> studyJoins;
+
+    @OneToMany(mappedBy = "replyStudy")
+    private List<Reply> studyReplys;
 }

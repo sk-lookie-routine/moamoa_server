@@ -30,9 +30,11 @@ public class StudyCustomRepositoryImpl implements StudyCustomRepository{
         JPQLQuery<Study> query = jpaQueryFactory       // 1)
                 .selectFrom(study)
                 .where(
+
                         userIdEq(condition.getUserSeq()),
                         studyTypeEq(condition.getStudyType()),
-                        titleInclude(condition.getTitle())
+                        titleInclude(condition.getTitle()),
+                        studySeqEq(condition.getStudySeq())
                 );
         return pagingUtil.getPageImpl(pageable, query, Study.class);
     }
@@ -49,5 +51,10 @@ public class StudyCustomRepositoryImpl implements StudyCustomRepository{
     private BooleanExpression titleInclude(String title) {
 
         return title != null ? study.title.contains(title) : null;
+    }
+
+    private BooleanExpression studySeqEq(Long study_seq) {
+
+        return study_seq != null ? study.studySeq.eq(study_seq) : null;
     }
 }

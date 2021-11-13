@@ -22,6 +22,8 @@ public class StudyDto {
 
     private String comment;
 
+    private String image;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
 
@@ -42,4 +44,12 @@ public class StudyDto {
     private Long userSeq;
 
     private List<String> hashTags;
+
+    private Long memberCount;
+
+    private String linkStudy;
+
+    private String linkNotion;
+
+    private String linkChat;
 }

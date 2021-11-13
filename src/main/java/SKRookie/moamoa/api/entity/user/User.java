@@ -1,6 +1,7 @@
 package SKRookie.moamoa.api.entity.user;
 
 import SKRookie.moamoa.api.entity.join.Join;
+import SKRookie.moamoa.api.entity.reply.Reply;
 import SKRookie.moamoa.oauth.entity.ProviderType;
 import SKRookie.moamoa.oauth.entity.RoleType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -69,6 +70,11 @@ public class User {
     @Size(max = 512)
     private String image;
 
+    @Column(name = "USER_INFO", length = 512)
+    @NotNull
+    @Size(max = 512)
+    private String userInfo;
+
     @Column(name = "ROLE_TYPE", length = 20)
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -84,6 +90,9 @@ public class User {
 
     @OneToMany(mappedBy = "joinUser")
     private List<Join> userJoins;
+
+    @OneToMany(mappedBy = "replyUser")
+    private List<Reply> userReplys;
 
     public User(
             @NotNull @Size(max = 64) String userId,

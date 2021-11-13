@@ -37,5 +37,12 @@ public class JoinService {
 //        return new PageImpl<>(studyDtos, pageable, search.getTotalElements());
         return null;
     }
+
+    public Optional<JoinDto> deleteStudyJoin(JoinDto joinDto) {
+
+        Join savedStudyJoin = joinRepository.save(modelMapper.map(joinDto, Join.class));
+
+        return Optional.of(modelMapper.map(savedStudyJoin, JoinDto.class));
+    }
 }
 

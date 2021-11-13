@@ -9,6 +9,8 @@ import lombok.*;
 @Getter
 @Setter
 public class StudySearchCondition {
+    private Long StudySeq;
+
     private Long userSeq;
 
     private StudyType studyType;
