@@ -94,10 +94,3 @@ idea {
 compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
 }
-jar {
-	manifest {
-		attributes(
-				'Main-Class': 'com.SKRookie.moamoa'
-		)
-	}
-}
