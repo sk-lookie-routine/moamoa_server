@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "JOIN")
+@Table(name = "JOINS")
 public class Join {
     @JsonIgnore
     @Id

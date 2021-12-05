@@ -19,7 +19,8 @@ public class UserService {
 
     public Optional<UserDto> getUser(String user_id) {
 
-        return Optional.of(modelMapper.map(userRepository.findByUserId(user_id), UserDto.class));
+        User byUserId = userRepository.findByUserId(user_id);
+        return Optional.of(modelMapper.map(byUserId, UserDto.class));
     }
 
     public Optional<UserDto> addUser(UserDto userDto) {
