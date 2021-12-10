@@ -13,6 +13,7 @@ import SKRookie.moamoa.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieR
 import SKRookie.moamoa.oauth.service.CustomOAuth2UserService;
 import SKRookie.moamoa.oauth.service.CustomUserDetailsService;
 import SKRookie.moamoa.oauth.token.AuthTokenProvider;
+import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -147,9 +148,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
 
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
-        corsConfig.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
-        corsConfig.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
+        corsConfig.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
+        corsConfig.setAllowedMethods(ImmutableList.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
+        corsConfig.setAllowedOrigins(ImmutableList.of("*"));
         corsConfig.setAllowCredentials(true);
         corsConfig.setMaxAge(corsConfig.getMaxAge());
 
