@@ -40,8 +40,6 @@ public class Join {
     @Enumerated(EnumType.STRING)
     private JoinType joinType;
 
-    @Column(name = "COMMENT", length = 512)
-    @NotNull
-    @Size(max = 512)
+    @Column(name = "COMMENT")
     private String comment;
 }

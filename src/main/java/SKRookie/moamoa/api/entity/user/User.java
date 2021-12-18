@@ -34,20 +34,14 @@ public class User {
     @Size(max = 64)
     private String userId;
 
-    @Column(name = "USERNAME", length = 100)
-    @NotNull
-    @Size(max = 100)
+    @Column(name = "USERNAME")
     private String username;
 
     @JsonIgnore
-    @Column(name = "PASSWORD", length = 128)
-    @NotNull
-    @Size(max = 128)
+    @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "EMAIL", length = 512, unique = true)
-    @NotNull
-    @Size(max = 512)
+    @Column(name = "EMAIL", unique = true)
     private String email;
 
     @Column(name = "EMAIL_VERIFIED_YN", length = 1)
@@ -55,9 +49,7 @@ public class User {
     @Size(min = 1, max = 1)
     private String emailVerifiedYn;
 
-    @Column(name = "PROFILE_IMAGE_URL", length = 512)
-    @NotNull
-    @Size(max = 512)
+    @Column(name = "PROFILE_IMAGE_URL")
     private String profileImageUrl;
 
     @Column(name = "PROVIDER_TYPE", length = 20)
@@ -65,14 +57,10 @@ public class User {
     @NotNull
     private ProviderType providerType;
 
-    @Column(name = "IMAGE", length = 512)
-    @NotNull
-    @Size(max = 512)
+    @Column(name = "IMAGE")
     private String image;
 
-    @Column(name = "USER_INFO", length = 512)
-    @NotNull
-    @Size(max = 512)
+    @Column(name = "USER_INFO")
     private String userInfo;
 
     @Column(name = "ROLE_TYPE", length = 20)
@@ -95,14 +83,14 @@ public class User {
     private List<Reply> userReplys;
 
     public User(
-            @NotNull @Size(max = 64) String userId,
-            @NotNull @Size(max = 100) String name,
-            @NotNull @Size(max = 512) String email,
-            @NotNull @Size(max = 1) String y,
-            @NotNull @Size(max = 512) String imageUrl,
-            @NotNull ProviderType providerType,
-            @NotNull RoleType user,
-            @NotNull LocalDateTime now
+            String userId,
+            String name,
+            String email,
+            String y,
+            String imageUrl,
+            ProviderType providerType,
+            RoleType user,
+            LocalDateTime now
     ) {
         this.userId = userId;
         this.username = name;

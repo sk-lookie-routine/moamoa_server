@@ -30,7 +30,6 @@ public class StudyCustomRepositoryImpl implements StudyCustomRepository{
         JPQLQuery<Study> query = jpaQueryFactory       // 1)
                 .selectFrom(study)
                 .where(
-
                         userIdEq(condition.getUserSeq()),
                         studyTypeEq(condition.getStudyType()),
                         titleInclude(condition.getTitle()),

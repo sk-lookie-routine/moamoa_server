@@ -42,9 +42,7 @@ public class Reply {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
 
-    @Column(name = "CONTENT", length = 1024)
-    @NotNull
-    @Size(max = 1024)
+    @Column(name = "CONTENT")
     private String content;
 }
 

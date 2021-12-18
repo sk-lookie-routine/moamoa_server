@@ -93,7 +93,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userInfo.getId());
         if (userRefreshToken != null) {
             userRefreshToken.setRefreshToken(refreshToken.getToken());
-            userRefreshTokenRepository.saveAndFlush(userRefreshToken);
         } else {
             userRefreshToken = new UserRefreshToken(userInfo.getId(), refreshToken.getToken());
             userRefreshTokenRepository.saveAndFlush(userRefreshToken);

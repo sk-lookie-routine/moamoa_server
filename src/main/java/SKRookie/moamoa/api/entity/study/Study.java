@@ -33,62 +33,44 @@ public class Study {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studySeq;
 
-    @Column(name = "TITLE", length = 512)
-    @NotNull
-    @Size(max = 512)
+    @Column(name = "TITLE")
     private String title;
 
-    @Column(name = "INFO", length = 512)
-    @NotNull
-    @Size(max = 512)
+    @Column(name = "INFO")
     private String info;
 
-    @Column(name = "GOAL", length = 512)
-    @NotNull
-    @Size(max = 512)
+    @Column(name = "GOAL")
     private String goal;
 
-    @Column(name = "HOW", length = 512)
-    @NotNull
-    @Size(max = 512)
+    @Column(name = "HOW")
     private String how;
 
-    @Column(name = "COMMENT", length = 512)
-    @NotNull
-    @Size(max = 512)
+    @Column(name = "COMMENT")
     private String comment;
 
-    @Column(name = "IMAGE", length = 512)
-    @NotNull
-    @Size(max = 512)
+    @Column(name = "IMAGE")
     private String image;
 
     @Column(name = "MEMBER_COUNT")
-    @NotNull
     private Long memberCount;
 
     @Column(name = "CREATED_AT")
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
 
     @Column(name = "MODIFIED_AT")
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime modifiedAt;
 
     @Column(name = "DEADLINE")
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate deadLine;
 
     @Column(name = "STARTDATE")
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate startDate;
 
     @Column(name = "ENDDATE")
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate endDate;
 
@@ -97,16 +79,13 @@ public class Study {
     @JoinColumn(name = "USER_SEQ", referencedColumnName = "user_seq")
     private User studyUser;
 
-    @Column(name = "LINK_STUDY", length = 512)
-    @Size(max = 1024)
+    @Column(name = "LINK_STUDY")
     private String linkStudy;
 
-    @Column(name = "LINK_NOTION", length = 512)
-    @Size(max = 1024)
+    @Column(name = "LINK_NOTION")
     private String linkNotion;
 
-    @Column(name = "LINK_CHAT", length = 512)
-    @Size(max = 1024)
+    @Column(name = "LINK_CHAT")
     private String linkChat;
 
     @NotNull
