@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 import static SKRookie.moamoa.api.entity.study.QStudy.study;
 
 @Repository
@@ -31,7 +33,7 @@ public class StudyCustomRepositoryImpl implements StudyCustomRepository{
                 .selectFrom(study)
                 .where(
                         userIdEq(condition.getUserSeq()),
-                        studyTypeEq(condition.getStudyType()),
+                        studyTypeIn(condition.getStudyTypeList()),
                         titleInclude(condition.getTitle()),
                         studySeqEq(condition.getStudySeq())
                 );
@@ -42,9 +44,9 @@ public class StudyCustomRepositoryImpl implements StudyCustomRepository{
         return user_id != null ? study.studyUser.userSeq.eq(user_id) : null;
     }
 
-    private BooleanExpression studyTypeEq(StudyType studyType) {
+    private BooleanExpression studyTypeIn(List<StudyType> studyType) {
 
-        return studyType != null ? study.studyType.eq(studyType) : null;
+        return studyType != null ? study.studyType.in(studyType) : null;
     }
 
     private BooleanExpression titleInclude(String title) {

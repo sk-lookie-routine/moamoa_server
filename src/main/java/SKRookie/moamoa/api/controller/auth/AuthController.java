@@ -3,6 +3,7 @@ package SKRookie.moamoa.api.controller.auth;
 import SKRookie.moamoa.api.entity.auth.AuthReqModel;
 import SKRookie.moamoa.api.entity.user.UserRefreshToken;
 import SKRookie.moamoa.api.repository.user.UserRefreshTokenRepository;
+import SKRookie.moamoa.api.service.auth.AuthService;
 import SKRookie.moamoa.common.ApiResponse;
 import SKRookie.moamoa.config.properties.AppProperties;
 import SKRookie.moamoa.oauth.entity.RoleType;
@@ -33,6 +34,7 @@ public class AuthController {
     private final AuthTokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final AuthService authService;
 
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
@@ -147,4 +149,10 @@ public class AuthController {
 
         return ApiResponse.success("token", newAccessToken.getToken());
     }
+
+    @GetMapping("/kakao")
+    public void oauth2AuthorizationKakao(@RequestParam("code") String code) throws Exception {
+        authService.oauth2AuthorizationKakao(code);
+    }
+
 }

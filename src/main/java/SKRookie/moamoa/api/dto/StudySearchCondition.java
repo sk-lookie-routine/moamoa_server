@@ -3,6 +3,8 @@ package SKRookie.moamoa.api.dto;
 import SKRookie.moamoa.api.enums.StudyType;
 import lombok.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -13,7 +15,7 @@ public class StudySearchCondition {
 
     private Long userSeq;
 
-    private StudyType studyType;
+    private List<StudyType> studyTypeList;
 
     private String title;
 
