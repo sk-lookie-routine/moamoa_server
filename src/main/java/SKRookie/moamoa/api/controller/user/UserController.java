@@ -41,7 +41,7 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<UserDto> updatedUser = userService.addUser(userDto);
+        Optional<UserDto> updatedUser = userService.updateUser(userDto);
 
         return  updatedUser.map(user -> ResponseEntity.status(HttpStatus.OK).body(user)).orElseGet(() -> ResponseEntity.badRequest().build());
     }

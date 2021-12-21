@@ -18,6 +18,8 @@ public class UserDto {
 
     private String email;
 
+    private String userId;
+
     private String emailVerifiedYn;
 
     private String profileImageUrl;

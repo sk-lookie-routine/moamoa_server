@@ -23,7 +23,7 @@ public class UserService {
         return Optional.of(modelMapper.map(byUserId, UserDto.class));
     }
 
-    public Optional<UserDto> addUser(UserDto userDto) {
+    public Optional<UserDto> updateUser(UserDto userDto) {
 
         Optional<User> optionalUser = userRepository.findById(userDto.getUserSeq());
         User user = optionalUser.get();
@@ -38,5 +38,16 @@ public class UserService {
         userRepository.save(user);
 
         return Optional.of(modelMapper.map(user, UserDto.class));
+    }
+
+    public Optional<UserDto> addUser(UserDto userDto) {
+
+        User byUserId = userRepository.findByUserId(userDto.getUserId());
+
+        if(byUserId == null) {
+            byUserId = userRepository.save(modelMapper.map(userDto, User.class));
+        }
+
+        return Optional.of(modelMapper.map(byUserId, UserDto.class));
     }
 }
