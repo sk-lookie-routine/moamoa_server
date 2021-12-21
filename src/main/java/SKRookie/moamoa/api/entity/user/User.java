@@ -41,7 +41,7 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "EMAIL", unique = true)
+    @Column(name = "EMAIL")
     private String email;
 
     @Column(name = "EMAIL_VERIFIED_YN", length = 1)
