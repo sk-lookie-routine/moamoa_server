@@ -26,11 +26,9 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping()
-    public ResponseEntity<UserDto>  getLoginUser(@RequestParam String token) {
+    public ResponseEntity<UserDto>  getLoginUser(@RequestParam String userId) {
 
-        UserRefreshToken byRefreshToken = userRefreshTokenRepository.findByRefreshToken(token);
-
-        Optional<UserDto> userDto = userService.getUser(byRefreshToken.getUserId());
+        Optional<UserDto> userDto = userService.getUser(userId);
 
         return userDto.map(user -> ResponseEntity.status(HttpStatus.OK).body(user)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
