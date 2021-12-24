@@ -43,10 +43,4 @@ public class StudyService {
 
         return new PageImpl<>(studyDtos, pageable, search.getTotalElements());
     }
-
-    public Optional<StudyDto> deleteStudy(StudyDto studyDto) {
-        studyRepository.delete(modelMapper.map(studyDto, Study.class));
-
-        return Optional.of(studyDto);
-    }
 }

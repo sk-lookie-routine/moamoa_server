@@ -1,48 +1,58 @@
 package SKRookie.moamoa.api.service.join;
 
+import SKRookie.moamoa.api.dto.JoinSearchCondition;
 import SKRookie.moamoa.api.dto.StudyDto;
 import SKRookie.moamoa.api.dto.StudySearchCondition;
 import SKRookie.moamoa.api.dto.JoinDto;
 import SKRookie.moamoa.api.entity.join.Join;
 import SKRookie.moamoa.api.entity.study.Study;
 import SKRookie.moamoa.api.entity.user.User;
+import SKRookie.moamoa.api.repository.join.JoinCustomRepository;
+import SKRookie.moamoa.api.repository.join.JoinCustomRepositoryImpl;
 import SKRookie.moamoa.api.repository.join.JoinRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class JoinService {
     private final JoinRepository joinRepository;
-
+    private final JoinCustomRepository joinCustomRepository;
     private final ModelMapper modelMapper;
 
-    public Optional<JoinDto> addStudyJoin(JoinDto joinDto) {
+    public Optional<JoinDto> addJoin(JoinDto joinDto) {
 
         Join savedStudyJoin = joinRepository.save(modelMapper.map(joinDto, Join.class));
 
         return Optional.of(modelMapper.map(savedStudyJoin, JoinDto.class));
     }
 
-    public Page<StudyDto> getStudyJoin(StudySearchCondition condition, Pageable pageable) {
-//        Page<Study> search = studyCustomRepository.search(condition, pageable);
-//
-//        List<StudyDto> studyDtos = search.stream().map(study -> modelMapper.map(study, StudyDto.class)).collect(Collectors.toList());
-//
-//        return new PageImpl<>(studyDtos, pageable, search.getTotalElements());
-        return null;
+    public Page<JoinDto> getJoin(JoinSearchCondition condition, Pageable pageable) {
+        Page<Join> search = joinCustomRepository.search(condition, pageable);
+
+        List<JoinDto> joinDtos = search.stream().map(join -> modelMapper.map(join, JoinDto.class)).collect(Collectors.toList());
+
+        return new PageImpl<>(joinDtos, pageable, search.getTotalElements());
     }
 
-    public Optional<JoinDto> deleteStudyJoin(JoinDto joinDto) {
+    public Optional<JoinDto> updateJoin(JoinDto joinDto) {
 
-        Join savedStudyJoin = joinRepository.save(modelMapper.map(joinDto, Join.class));
+        Optional<Join> byId = joinRepository.findById(joinDto.getJoinSeq());
 
-        return Optional.of(modelMapper.map(savedStudyJoin, JoinDto.class));
+        Join join = byId.get();
+
+        join.setJoinType(joinDto.getJoinType());
+        joinRepository.saveAndFlush(join);
+
+        return Optional.of(modelMapper.map(join, JoinDto.class));
     }
 }
 

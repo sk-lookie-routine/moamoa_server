@@ -24,8 +24,6 @@ public class StudyController {
 
     private final StudyService studyService;
 
-    private final JoinService joinService;
-
     @GetMapping
     public ResponseEntity<Page<StudyDto>> search(StudySearchCondition condition, Pageable pageable) {
 

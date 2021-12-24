@@ -31,8 +31,8 @@ public class JoinCustomRepositoryImpl implements JoinCustomRepository {
         JPQLQuery<Join> query = jpaQueryFactory       // 1)
                 .selectFrom(join)
                 .where(
-                        userIdEq(condition.getStudyJoinUser()),
-                        studyIdEq(condition.getStudyJoin()),
+                        userIdEq(condition.getUserSeq()),
+                        studyIdEq(condition.getStudySeq()),
                         joinTypeEq(condition.getJoinType())
                 );
         return pagingUtil.getPageImpl(pageable, query, Join.class);
