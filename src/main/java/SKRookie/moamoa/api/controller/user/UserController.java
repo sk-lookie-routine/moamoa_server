@@ -1,9 +1,6 @@
 package SKRookie.moamoa.api.controller.user;
 
-import SKRookie.moamoa.api.dto.StudyDto;
-import SKRookie.moamoa.api.dto.StudySearchCondition;
-import SKRookie.moamoa.api.dto.UserDto;
-import SKRookie.moamoa.api.dto.UserSearchCondition;
+import SKRookie.moamoa.api.dto.*;
 import SKRookie.moamoa.api.entity.user.UserRefreshToken;
 import SKRookie.moamoa.api.repository.user.UserRefreshTokenRepository;
 import SKRookie.moamoa.api.repository.user.UserRepository;
@@ -35,6 +32,17 @@ public class UserController {
         } else {
             return ResponseEntity.noContent().build();
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<UserDto> newUser(@RequestBody @Validated UserDto userDto, Errors errors){
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<UserDto> optionalUserDto = userService.addUser(userDto);
+
+        return  optionalUserDto.map(studyJoin -> ResponseEntity.status(HttpStatus.CREATED).body(studyJoin)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @PutMapping
