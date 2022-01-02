@@ -44,5 +44,24 @@ public class ReplyService {
 
         return new PageImpl<>(replyDtos, pageable, search.getTotalElements());
     }
+
+    public Optional<ReplyDto> updateReply(ReplyDto replyDto) {
+
+        Optional<Reply> byId = replyRepository.findById(replyDto.getReplySeq());
+
+        Reply reply = byId.get();
+
+        reply.setContent(replyDto.getContent());
+        reply.setCreatedAt(LocalDateTime.now());
+
+        replyRepository.saveAndFlush(reply);
+
+        return Optional.of(modelMapper.map(reply, ReplyDto.class));
+    }
+
+    public void deleteReply(ReplyDto replyDto) {
+
+        replyRepository.deleteById(replyDto.getReplySeq());
+    }
 }
 

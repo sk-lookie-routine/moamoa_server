@@ -43,5 +43,28 @@ public class ReplyController {
 
         return  optionalReplyDto.map(reply -> ResponseEntity.status(HttpStatus.CREATED).body(reply)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
+
+    @PutMapping
+    public ResponseEntity<ReplyDto> updateReply(@RequestBody @Validated ReplyDto replyDto, Errors errors){
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<ReplyDto> updatedReply = replyService.updateReply(replyDto);
+
+        return  updatedReply.map(reply -> ResponseEntity.status(HttpStatus.OK).body(reply)).orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @DeleteMapping
+    public String deleteReply(@RequestBody @Validated ReplyDto replyDto, Errors errors){
+        if(errors.hasErrors()) {
+            return "error";
+        }
+        replyService.deleteReply(replyDto);
+
+        return  "deleted";
+    }
+
+
 }
 
