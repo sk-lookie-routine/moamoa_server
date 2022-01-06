@@ -64,4 +64,9 @@ public class UserService {
 
         return Optional.of(modelMapper.map(byUserId, UserDto.class));
     }
+
+    public void deleteUser(UserDto userDto) {
+
+        userRepository.deleteById(userDto.getUserSeq());
+    }
 }

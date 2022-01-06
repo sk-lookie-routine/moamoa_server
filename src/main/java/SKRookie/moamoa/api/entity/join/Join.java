@@ -27,12 +27,12 @@ public class Join {
     private Long joinSeq;
 
     @NotNull
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.MERGE})
     @JoinColumn(name = "USER_SEQ", referencedColumnName = "user_seq")
     private User joinUser;
 
     @NotNull
-    @ManyToOne(targetEntity = Study.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(targetEntity = Study.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.MERGE})
     @JoinColumn(name = "STUDY_SEQ", referencedColumnName = "study_seq")
     private Study joinStudy;
 

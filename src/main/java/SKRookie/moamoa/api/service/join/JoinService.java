@@ -1,10 +1,8 @@
 package SKRookie.moamoa.api.service.join;
 
-import SKRookie.moamoa.api.dto.JoinSearchCondition;
-import SKRookie.moamoa.api.dto.StudyDto;
-import SKRookie.moamoa.api.dto.StudySearchCondition;
-import SKRookie.moamoa.api.dto.JoinDto;
+import SKRookie.moamoa.api.dto.*;
 import SKRookie.moamoa.api.entity.join.Join;
+import SKRookie.moamoa.api.entity.reply.Reply;
 import SKRookie.moamoa.api.entity.study.Study;
 import SKRookie.moamoa.api.entity.user.User;
 import SKRookie.moamoa.api.repository.join.JoinCustomRepository;
@@ -53,6 +51,24 @@ public class JoinService {
         joinRepository.saveAndFlush(join);
 
         return Optional.of(modelMapper.map(join, JoinDto.class));
+    }
+
+    public void deleteJoinByUserSeq(UserDto userDto) {
+
+        List<Join> allByJoinUser = joinRepository.findAllByJoinUser(modelMapper.map(userDto, User.class));
+
+        if (!allByJoinUser.isEmpty()) {
+            joinRepository.deleteAllByJoinUser(modelMapper.map(userDto, User.class));
+        }
+    }
+
+    public void deleteJoinByStudySeq(StudyDto studyDto) {
+
+        List<Join> allByJoinStudy = joinRepository.findAllByJoinStudy(modelMapper.map(studyDto, Study.class));
+
+        if (!allByJoinStudy.isEmpty()) {
+            joinRepository.deleteAllByJoinStudy(modelMapper.map(studyDto, Study.class));
+        }
     }
 }
 

@@ -75,7 +75,7 @@ public class Study {
     private LocalDate endDate;
 
     @NotNull
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "USER_SEQ", referencedColumnName = "user_seq")
     private User studyUser;
 

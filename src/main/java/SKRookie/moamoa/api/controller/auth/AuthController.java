@@ -1,10 +1,17 @@
 package SKRookie.moamoa.api.controller.auth;
 
+import SKRookie.moamoa.api.dto.RejectedUserDto;
+import SKRookie.moamoa.api.dto.StudyDto;
+import SKRookie.moamoa.api.dto.StudySearchCondition;
 import SKRookie.moamoa.api.dto.UserDto;
 import SKRookie.moamoa.api.entity.auth.AuthReqModel;
 import SKRookie.moamoa.api.entity.user.UserRefreshToken;
 import SKRookie.moamoa.api.repository.user.UserRefreshTokenRepository;
 import SKRookie.moamoa.api.service.auth.AuthService;
+import SKRookie.moamoa.api.service.join.JoinService;
+import SKRookie.moamoa.api.service.reply.ReplyService;
+import SKRookie.moamoa.api.service.study.StudyService;
+import SKRookie.moamoa.api.service.user.RejectedUserService;
 import SKRookie.moamoa.api.service.user.UserService;
 import SKRookie.moamoa.common.ApiResponse;
 import SKRookie.moamoa.config.properties.AppProperties;
@@ -17,6 +24,9 @@ import SKRookie.moamoa.utils.HeaderUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,6 +51,11 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
     private final UserService userService;
+    private final RejectedUserService rejectedUserService;
+    private final StudyService studyService;
+    private final JoinService joinService;
+    private final ReplyService replyService;
+    private final ModelMapper modelMapper;
 
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
@@ -156,10 +171,41 @@ public class AuthController {
 //        return ApiResponse.success("token", newAccessToken.getToken());
 //    }
 
+
+    // 탈퇴 회원 아닐 때만
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody UserDto userDto) {
+        Optional<RejectedUserDto> rejectedUserByEmail = rejectedUserService.getRejectedUserByEmail(userDto.getEmail());
+        // 만약 이전에 탈퇴한 회원이라면 해당 이메일로 재가입이 불가능하다.
+        if (rejectedUserByEmail.isPresent()) {
+            return ResponseEntity.unprocessableEntity().build();
+        }
         Optional<UserDto> loginUser = userService.addUser(userDto);
         return loginUser.map(user -> ResponseEntity.status(HttpStatus.OK).body(user)).orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @DeleteMapping ("/reject")
+    public ResponseEntity<RejectedUserDto> reject(@RequestBody UserDto userDto) {
+        // rejected DB 에 추가
+        Optional<RejectedUserDto> savedrejectedUser = rejectedUserService.addRejectedUserByEmail(modelMapper.map(userDto, RejectedUserDto.class));
+
+        // 연관 관계 매핑때문에 부모 엔티티에서 삭제 발생하면 나머지 테이블에서도 다 지워야해.. 개노가다..
+        // study 도 연관 관계 매핑 있으니 걔 먼저 지우자
+        StudySearchCondition studySearchCondition = new StudySearchCondition();
+        studySearchCondition.setUserSeq(userDto.getUserSeq());
+        Page<StudyDto> study = studyService.getStudy(studySearchCondition, Pageable.unpaged());
+
+        study.forEach(studyDto -> {
+            replyService.deleteReplyByStudySeq(studyDto);
+            joinService.deleteJoinByStudySeq(studyDto);
+        });
+        studyService.deleteStudyByUserSeq(userDto);
+        replyService.deleteReplyByUserSeq(userDto);
+        joinService.deleteJoinByUserSeq(userDto);
+
+        userService.deleteUser(userDto);
+
+        return savedrejectedUser.map(user -> ResponseEntity.status(HttpStatus.OK).body(user)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
 }

@@ -2,7 +2,10 @@ package SKRookie.moamoa.api.service.study;
 
 import SKRookie.moamoa.api.dto.StudyDto;
 import SKRookie.moamoa.api.dto.StudySearchCondition;
+import SKRookie.moamoa.api.dto.UserDto;
+import SKRookie.moamoa.api.entity.join.Join;
 import SKRookie.moamoa.api.entity.study.Study;
+import SKRookie.moamoa.api.entity.user.User;
 import SKRookie.moamoa.api.repository.study.StudyCustomRepository;
 import SKRookie.moamoa.api.repository.study.StudyRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +45,14 @@ public class StudyService {
         List<StudyDto> studyDtos = search.stream().map(study -> modelMapper.map(study, StudyDto.class)).collect(Collectors.toList());
 
         return new PageImpl<>(studyDtos, pageable, search.getTotalElements());
+    }
+
+    public void deleteStudyByUserSeq(UserDto userDto) {
+
+        List<Study> allByStudyUser = studyRepository.findAllByStudyUser(modelMapper.map(userDto, User.class));
+
+        if (!allByStudyUser.isEmpty()) {
+            studyRepository.deleteAllByStudyUser(modelMapper.map(userDto, User.class));
+        }
     }
 }
