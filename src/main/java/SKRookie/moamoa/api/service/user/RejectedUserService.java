@@ -36,7 +36,7 @@ public class RejectedUserService {
         return Optional.of(modelMapper.map(byEmail, RejectedUserDto.class));
     }
 
-    public Optional<RejectedUserDto> addRejectedUserByEmail(RejectedUserDto rejectedUserDto) {
+    public Optional<RejectedUserDto> addRejectedUser(RejectedUserDto rejectedUserDto) {
         RejectedUser save = rejectedUserRepository.save(modelMapper.map(rejectedUserDto, RejectedUser.class));
 
         return Optional.of(modelMapper.map(save, RejectedUserDto.class));

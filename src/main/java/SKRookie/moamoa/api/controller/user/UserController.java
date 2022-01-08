@@ -34,16 +34,16 @@ public class UserController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<UserDto> newUser(@RequestBody @Validated UserDto userDto, Errors errors){
-        if(errors.hasErrors()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Optional<UserDto> optionalUserDto = userService.addUser(userDto);
-
-        return  optionalUserDto.map(studyJoin -> ResponseEntity.status(HttpStatus.CREATED).body(studyJoin)).orElseGet(() -> ResponseEntity.badRequest().build());
-    }
+//    @PostMapping
+//    public ResponseEntity<UserDto> newUser(@RequestBody @Validated UserDto userDto, Errors errors){
+//        if(errors.hasErrors()) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//
+//        Optional<UserDto> optionalUserDto = userService.addUser(userDto);
+//
+//        return  optionalUserDto.map(studyJoin -> ResponseEntity.status(HttpStatus.CREATED).body(studyJoin)).orElseGet(() -> ResponseEntity.badRequest().build());
+//    }
 
     @PutMapping
     public ResponseEntity<UserDto> updateUser(@RequestBody @Validated UserDto userDto, Errors errors){

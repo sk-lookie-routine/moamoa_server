@@ -37,6 +37,12 @@ public class UserService {
         return new PageImpl<>(userDtos, pageable, search.getTotalElements());
     }
 
+    public Optional<UserDto> findUser(Long user_seq) {
+        Optional<User> byId = userRepository.findById(user_seq);
+
+        return Optional.of(modelMapper.map(byId.get(), UserDto.class));
+    }
+
     public Optional<UserDto> updateUser(UserDto userDto) {
 
         Optional<User> optionalUser = userRepository.findById(userDto.getUserSeq());
