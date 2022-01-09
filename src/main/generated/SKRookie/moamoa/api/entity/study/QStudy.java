@@ -32,7 +32,7 @@ public class QStudy extends EntityPathBase<Study> {
 
     public final StringPath goal = createString("goal");
 
-    public final ListPath<String, StringPath> hashTags = this.<String, StringPath>createList("hashTags", String.class, StringPath.class, PathInits.DIRECT2);
+    public final SetPath<String, StringPath> hashTags = this.<String, StringPath>createSet("hashTags", String.class, StringPath.class, PathInits.DIRECT2);
 
     public final StringPath how = createString("how");
 

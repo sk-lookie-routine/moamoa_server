@@ -17,7 +17,5 @@ public class StudySearchCondition {
 
     private List<StudyType> studyTypeList;
 
-    private String title;
-
-    private String hashTag;
+    private String search;
 }

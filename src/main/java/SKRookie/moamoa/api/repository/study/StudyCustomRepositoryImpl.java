@@ -34,8 +34,7 @@ public class StudyCustomRepositoryImpl implements StudyCustomRepository{
                 .where(
                         userIdEq(condition.getUserSeq()),
                         studyTypeIn(condition.getStudyTypeList()),
-                        studyHashTagContains(condition.getHashTag()),
-                        titleInclude(condition.getTitle()),
+                        studyHashTagOrTitleContains(condition.getSearch()),
                         studySeqEq(condition.getStudySeq())
                 );
         return pagingUtil.getPageImpl(pageable, query, Study.class);
@@ -50,14 +49,9 @@ public class StudyCustomRepositoryImpl implements StudyCustomRepository{
         return studyType != null ? study.studyType.in(studyType) : null;
     }
 
-    private BooleanExpression studyHashTagContains(String hashTag) {
+    private BooleanExpression studyHashTagOrTitleContains(String search) {
 
-        return hashTag != null ? study.hashTags.any().contains(hashTag) : null;
-    }
-
-    private BooleanExpression titleInclude(String title) {
-
-        return title != null ? study.title.contains(title) : null;
+        return search != null ? study.hashTags.any().contains(search).or(study.title.contains(search)) : null;
     }
 
     private BooleanExpression studySeqEq(Long study_seq) {
