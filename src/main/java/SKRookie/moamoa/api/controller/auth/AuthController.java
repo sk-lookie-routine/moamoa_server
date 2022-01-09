@@ -181,13 +181,17 @@ public class AuthController {
         return loginUser.map(user -> ResponseEntity.status(HttpStatus.OK).body(user)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @DeleteMapping ("/reject")
-    public ResponseEntity<RejectedUserDto> reject(@RequestBody UserDto userDto) {
+    @DeleteMapping ("/reject/{id}")
+    public ResponseEntity<RejectedUserDto> reject(@PathVariable("id") Long user_seq) {
         // user find
-        Optional<UserDto> userServiceUser = userService.findUser(userDto.getUserSeq());
+        Optional<UserDto> userServiceUser = userService.findUser(user_seq);
+        UserDto userDto = new UserDto();
+        if (userServiceUser.isPresent()) {
+            userDto = userServiceUser.get();
+        }
 
         // rejected DB 에 추가
-        Optional<RejectedUserDto> savedrejectedUser = rejectedUserService.addRejectedUser(modelMapper.map(userServiceUser.get(), RejectedUserDto.class));
+        Optional<RejectedUserDto> savedrejectedUser = rejectedUserService.addRejectedUser(modelMapper.map(userDto, RejectedUserDto.class));
 
         // 연관 관계 매핑때문에 부모 엔티티에서 삭제 발생하면 나머지 테이블에서도 다 지워야해.. 개노가다..
         // study 도 연관 관계 매핑 있으니 걔 먼저 지우자
