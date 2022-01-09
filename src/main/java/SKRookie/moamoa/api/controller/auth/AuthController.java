@@ -174,7 +174,7 @@ public class AuthController {
     public ResponseEntity<UserDto> login(@RequestBody UserDto userDto) {
         Optional<RejectedUserDto> rejectedUserByEmail = rejectedUserService.getRejectedUserByEmail(userDto.getEmail());
         // 만약 이전에 탈퇴한 회원이라면 해당 이메일로 재가입이 불가능하다.
-        if (rejectedUserByEmail.isPresent()) {
+        if (rejectedUserByEmail.get().getEmail() != null) {
             return ResponseEntity.unprocessableEntity().build();
         }
         Optional<UserDto> loginUser = userService.addUser(userDto);

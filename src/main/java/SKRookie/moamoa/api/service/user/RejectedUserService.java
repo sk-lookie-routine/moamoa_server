@@ -32,8 +32,11 @@ public class RejectedUserService {
 
     public Optional<RejectedUserDto> getRejectedUserByEmail(String email) {
         RejectedUser byEmail = rejectedUserRepository.findByEmail(email);
-
-        return Optional.of(modelMapper.map(byEmail, RejectedUserDto.class));
+        RejectedUserDto rejectedUserDto = new RejectedUserDto();
+        if (byEmail != null) {
+            rejectedUserDto = modelMapper.map(byEmail, RejectedUserDto.class);
+        }
+        return Optional.of(rejectedUserDto);
     }
 
     public Optional<RejectedUserDto> addRejectedUser(RejectedUserDto rejectedUserDto) {
