@@ -1,8 +1,10 @@
 package SKRookie.moamoa.api.dto;
 
+import SKRookie.moamoa.api.enums.JoinType;
 import SKRookie.moamoa.api.enums.StudyType;
 import lombok.*;
 
+import javax.persistence.Convert;
 import java.util.List;
 
 @AllArgsConstructor
@@ -17,5 +19,9 @@ public class StudySearchCondition {
 
     private List<StudyType> studyTypeList;
 
+    private String studyType;
+
     private String search;
+
+    private String isMyPage;
 }

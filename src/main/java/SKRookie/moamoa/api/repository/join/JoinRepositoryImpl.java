@@ -15,13 +15,13 @@ import static SKRookie.moamoa.api.entity.join.QJoin.join;
 
 
 @Repository
-public class JoinCustomRepositoryImpl implements JoinCustomRepository {
+public class JoinRepositoryImpl implements JoinRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
     private final PagingUtil pagingUtil;
 
-    public JoinCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory, PagingUtil pagingUtil) {
+    public JoinRepositoryImpl(JPAQueryFactory jpaQueryFactory, PagingUtil pagingUtil) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.pagingUtil = pagingUtil;
     }

@@ -7,7 +7,7 @@ import SKRookie.moamoa.utils.PagingUtil;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -16,19 +16,19 @@ import java.util.List;
 import static SKRookie.moamoa.api.entity.study.QStudy.study;
 
 @Repository
-public class StudyCustomRepositoryImpl implements StudyCustomRepository{
+public class StudyRepositoryImpl implements StudyRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
     private final PagingUtil pagingUtil;
 
-    public StudyCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory, PagingUtil pagingUtil) {
+    public StudyRepositoryImpl(JPAQueryFactory jpaQueryFactory, PagingUtil pagingUtil) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.pagingUtil = pagingUtil;
     }
 
     @Override
-    public Page<Study> search(StudySearchCondition condition, Pageable pageable) {
+    public PageImpl<Study> search(StudySearchCondition condition, Pageable pageable) {
         JPQLQuery<Study> query = jpaQueryFactory       // 1)
                 .selectFrom(study)
                 .where(
@@ -39,6 +39,7 @@ public class StudyCustomRepositoryImpl implements StudyCustomRepository{
                 );
         return pagingUtil.getPageImpl(pageable, query, Study.class);
     }
+
     private BooleanExpression userIdEq(Long user_id) {
 
         return user_id != null ? study.studyUser.userSeq.eq(user_id) : null;

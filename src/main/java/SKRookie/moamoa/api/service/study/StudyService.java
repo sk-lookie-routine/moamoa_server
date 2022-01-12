@@ -3,11 +3,12 @@ package SKRookie.moamoa.api.service.study;
 import SKRookie.moamoa.api.dto.StudyDto;
 import SKRookie.moamoa.api.dto.StudySearchCondition;
 import SKRookie.moamoa.api.dto.UserDto;
-import SKRookie.moamoa.api.entity.join.Join;
 import SKRookie.moamoa.api.entity.study.Study;
 import SKRookie.moamoa.api.entity.user.User;
-import SKRookie.moamoa.api.repository.study.StudyCustomRepository;
+import SKRookie.moamoa.api.repository.join.JoinRepository;
+import SKRookie.moamoa.api.repository.study.StudyRepositoryCustom;
 import SKRookie.moamoa.api.repository.study.StudyRepository;
+import SKRookie.moamoa.api.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -25,9 +26,12 @@ import java.util.stream.Collectors;
 public class StudyService {
     private final StudyRepository studyRepository;
 
-    private final StudyCustomRepository studyCustomRepository;
+    private final JoinRepository joinRepository;
+
+    private final UserRepository userRepository;
 
     private final ModelMapper modelMapper;
+
 
     public Optional<StudyDto> addStudy(StudyDto studyDto) {
         Study map = modelMapper.map(studyDto, Study.class);
@@ -40,7 +44,7 @@ public class StudyService {
     }
 
     public Page<StudyDto> getStudy(StudySearchCondition condition, Pageable pageable) {
-        Page<Study> search = studyCustomRepository.search(condition, pageable);
+        Page<Study> search = studyRepository.search(condition, pageable);
 
         List<StudyDto> studyDtos = search.stream().map(study -> modelMapper.map(study, StudyDto.class)).collect(Collectors.toList());
 
@@ -54,5 +58,13 @@ public class StudyService {
         if (!allByStudyUser.isEmpty()) {
             studyRepository.deleteAllByStudyUser(modelMapper.map(userDto, User.class));
         }
+    }
+
+    public Page<StudyDto>  getMyStudy(StudySearchCondition condition, Pageable pageable) {
+        Page<Study> search = studyRepository.findAllMyStudyByUserSeqAndStudyType(condition.getUserSeq(), condition.getStudyType(), pageable);
+
+        List<StudyDto> studyDtos = search.stream().map(study -> modelMapper.map(study, StudyDto.class)).collect(Collectors.toList());
+
+        return new PageImpl<>(studyDtos, pageable, search.getTotalElements());
     }
 }

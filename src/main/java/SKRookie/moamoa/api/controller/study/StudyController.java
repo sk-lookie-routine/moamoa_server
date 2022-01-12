@@ -27,7 +27,8 @@ public class StudyController {
     @GetMapping
     public ResponseEntity<Page<StudyDto>> search(StudySearchCondition condition, Pageable pageable) {
 
-        Page<StudyDto> studyDtoPage = studyService.getStudy(condition, pageable);
+        // mypage 에서 요청했을 때와 전체 목록에서 요청했을 때 서로 다른 study를 보내줘야 한다.
+        Page<StudyDto> studyDtoPage = condition.getIsMyPage().equals("YES") ? studyService.getMyStudy(condition, pageable) : studyService.getStudy(condition, pageable);
 
         if (studyDtoPage.hasContent()) {
             return ResponseEntity.status(HttpStatus.OK).body(studyDtoPage);

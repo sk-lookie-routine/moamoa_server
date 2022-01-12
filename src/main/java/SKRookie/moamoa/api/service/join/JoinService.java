@@ -2,11 +2,9 @@ package SKRookie.moamoa.api.service.join;
 
 import SKRookie.moamoa.api.dto.*;
 import SKRookie.moamoa.api.entity.join.Join;
-import SKRookie.moamoa.api.entity.reply.Reply;
 import SKRookie.moamoa.api.entity.study.Study;
 import SKRookie.moamoa.api.entity.user.User;
-import SKRookie.moamoa.api.repository.join.JoinCustomRepository;
-import SKRookie.moamoa.api.repository.join.JoinCustomRepositoryImpl;
+import SKRookie.moamoa.api.repository.join.JoinRepositoryCustom;
 import SKRookie.moamoa.api.repository.join.JoinRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JoinService {
     private final JoinRepository joinRepository;
-    private final JoinCustomRepository joinCustomRepository;
+
     private final ModelMapper modelMapper;
 
     public Optional<JoinDto> addJoin(JoinDto joinDto) {
@@ -34,7 +32,7 @@ public class JoinService {
     }
 
     public Page<JoinDto> getJoin(JoinSearchCondition condition, Pageable pageable) {
-        Page<Join> search = joinCustomRepository.search(condition, pageable);
+        Page<Join> search = joinRepository.search(condition, pageable);
 
         List<JoinDto> joinDtos = search.stream().map(join -> modelMapper.map(join, JoinDto.class)).collect(Collectors.toList());
 
