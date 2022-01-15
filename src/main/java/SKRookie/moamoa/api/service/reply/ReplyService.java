@@ -54,7 +54,6 @@ public class ReplyService {
         Reply reply = byId.get();
 
         reply.setContent(replyDto.getContent());
-        reply.setCreatedAt(LocalDateTime.now());
 
         replyRepository.saveAndFlush(reply);
 

@@ -23,5 +23,5 @@ public class StudySearchCondition {
 
     private String search;
 
-    private String isMyPage;
+    private String origin;
 }

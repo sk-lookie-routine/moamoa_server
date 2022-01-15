@@ -21,5 +21,8 @@ public interface StudyRepository extends JpaRepository<Study, Long>, StudyReposi
     List<Study> deleteAllByStudyUser(User user);
 
     @Query(value = "select * from moamoa.study as s where s.study_seq in (SELECT study_seq FROM moamoa.joins as j where j.user_seq = :user_seq and j.join_Type='APPROVED') and s.study_type = :study_type union select * from moamoa.study as p where p.user_seq = :user_seq and p.study_type = :study_type order by startDate", nativeQuery = true)
-    Page<Study> findAllMyStudyByUserSeqAndStudyType(@Param("user_seq") Long user_seq, @Param("study_type") String study_type ,Pageable pageable);
+    Page<Study> findAllInStudyRoom(@Param("user_seq") Long user_seq, @Param("study_type") String study_type ,Pageable pageable);
+
+    @Query(value = "select * from moamoa.study as s where s.study_seq in (SELECT study_seq FROM moamoa.joins as j where j.user_seq = :user_seq) order by startDate", nativeQuery = true)
+    Page<Study> findAllInMyPage(@Param("user_seq") Long user_seq ,Pageable pageable);
 }

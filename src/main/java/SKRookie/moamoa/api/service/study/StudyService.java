@@ -26,10 +26,6 @@ import java.util.stream.Collectors;
 public class StudyService {
     private final StudyRepository studyRepository;
 
-    private final JoinRepository joinRepository;
-
-    private final UserRepository userRepository;
-
     private final ModelMapper modelMapper;
 
 
@@ -44,7 +40,14 @@ public class StudyService {
     }
 
     public Page<StudyDto> getStudy(StudySearchCondition condition, Pageable pageable) {
-        Page<Study> search = studyRepository.search(condition, pageable);
+        Page<Study> search = null;
+        if (condition.getOrigin() == null) {
+            search = studyRepository.search(condition, pageable);
+        }  else if (condition.getOrigin().equals("myPage")) {
+            search = studyRepository.findAllInMyPage(condition.getUserSeq(), pageable);
+        } else if (condition.getOrigin().equals("studyRoom")) {
+            search = studyRepository.findAllInStudyRoom(condition.getUserSeq(), condition.getStudyType(), pageable);
+        }
 
         List<StudyDto> studyDtos = search.stream().map(study -> modelMapper.map(study, StudyDto.class)).collect(Collectors.toList());
 
@@ -58,13 +61,5 @@ public class StudyService {
         if (!allByStudyUser.isEmpty()) {
             studyRepository.deleteAllByStudyUser(modelMapper.map(userDto, User.class));
         }
-    }
-
-    public Page<StudyDto>  getMyStudy(StudySearchCondition condition, Pageable pageable) {
-        Page<Study> search = studyRepository.findAllMyStudyByUserSeqAndStudyType(condition.getUserSeq(), condition.getStudyType(), pageable);
-
-        List<StudyDto> studyDtos = search.stream().map(study -> modelMapper.map(study, StudyDto.class)).collect(Collectors.toList());
-
-        return new PageImpl<>(studyDtos, pageable, search.getTotalElements());
     }
 }
