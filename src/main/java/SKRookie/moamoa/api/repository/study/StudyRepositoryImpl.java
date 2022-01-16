@@ -36,7 +36,8 @@ public class StudyRepositoryImpl implements StudyRepositoryCustom {
                         studyTypeIn(condition.getStudyTypeList()),
                         studyHashTagOrTitleContains(condition.getSearch()),
                         studySeqEq(condition.getStudySeq())
-                );
+                )
+                .orderBy(study.createdAt.desc());
         return pagingUtil.getPageImpl(pageable, query, Study.class);
     }
 
