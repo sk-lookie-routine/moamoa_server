@@ -6,6 +6,7 @@ import SKRookie.moamoa.api.dto.UserSearchCondition;
 import SKRookie.moamoa.api.entity.study.Study;
 import SKRookie.moamoa.api.entity.user.User;
 import SKRookie.moamoa.api.dto.UserDto;
+import SKRookie.moamoa.api.enums.UserType;
 import SKRookie.moamoa.api.repository.user.UserCustomRepository;
 import SKRookie.moamoa.api.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,6 @@ public class UserService {
             user.setUsername(userDto.getUsername());
             user.setUserInfo(userDto.getUserInfo());
             user.setImage(userDto.getImage());
-            user.setModifiedAt(LocalDateTime.now());
         }
 
         userRepository.save(user);
@@ -60,19 +60,34 @@ public class UserService {
         return Optional.of(modelMapper.map(user, UserDto.class));
     }
 
-    public Optional<UserDto> addUser(UserDto userDto) {
+    public Optional<UserDto> loginUser(UserDto userDto) {
 
         User byUserId = userRepository.findByUserId(userDto.getUserId());
 
         if(byUserId == null) {
+            byUserId.setCreatedAt(LocalDateTime.now());
             byUserId = userRepository.save(modelMapper.map(userDto, User.class));
         }
 
         return Optional.of(modelMapper.map(byUserId, UserDto.class));
     }
 
-    public void deleteUser(UserDto userDto) {
+    public Optional<UserDto> getRejectedUser(String email) {
+        User byUserSeqAndUserType = userRepository.findByEmailAndUserType(email, UserType.REJECT);
 
-        userRepository.deleteById(userDto.getUserSeq());
+        return Optional.ofNullable(byUserSeqAndUserType == null ? null : modelMapper.map(byUserSeqAndUserType, UserDto.class));
+    }
+
+    public Optional<UserDto> rejectUser(UserDto userDto) {
+        Optional<User> optionalUser = userRepository.findById(userDto.getUserSeq());
+        User user = optionalUser.get();
+
+        if(optionalUser.isPresent()) {
+            user.setUserType(UserType.REJECT);
+        }
+
+        userRepository.save(user);
+
+        return Optional.of(modelMapper.map(user, UserDto.class));
     }
 }

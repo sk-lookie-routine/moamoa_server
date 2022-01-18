@@ -26,9 +26,9 @@ public class QReply extends EntityPathBase<Reply> {
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
-    public final NumberPath<Long> replySeq = createNumber("replySeq", Long.class);
+    public final SKRookie.moamoa.api.entity.post.QPost replyPost;
 
-    public final SKRookie.moamoa.api.entity.study.QStudy replyStudy;
+    public final NumberPath<Long> replySeq = createNumber("replySeq", Long.class);
 
     public final SKRookie.moamoa.api.entity.user.QUser replyUser;
 
@@ -50,7 +50,7 @@ public class QReply extends EntityPathBase<Reply> {
 
     public QReply(Class<? extends Reply> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.replyStudy = inits.isInitialized("replyStudy") ? new SKRookie.moamoa.api.entity.study.QStudy(forProperty("replyStudy"), inits.get("replyStudy")) : null;
+        this.replyPost = inits.isInitialized("replyPost") ? new SKRookie.moamoa.api.entity.post.QPost(forProperty("replyPost"), inits.get("replyPost")) : null;
         this.replyUser = inits.isInitialized("replyUser") ? new SKRookie.moamoa.api.entity.user.QUser(forProperty("replyUser")) : null;
     }
 

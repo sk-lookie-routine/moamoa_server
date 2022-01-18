@@ -1,9 +1,10 @@
 package SKRookie.moamoa.api.entity.user;
 
 import SKRookie.moamoa.api.entity.join.Join;
+import SKRookie.moamoa.api.entity.mate.Mate;
 import SKRookie.moamoa.api.entity.reply.Reply;
-import SKRookie.moamoa.oauth.entity.ProviderType;
-import SKRookie.moamoa.oauth.entity.RoleType;
+import SKRookie.moamoa.api.enums.UserType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -34,28 +35,16 @@ public class User {
     @Size(max = 64)
     private String userId;
 
+    @Column(name = "USER_TYPE", length = 20)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private UserType userType;
+
     @Column(name = "USERNAME")
     private String username;
 
-    @JsonIgnore
-    @Column(name = "PASSWORD")
-    private String password;
-
     @Column(name = "EMAIL")
     private String email;
-
-    @Column(name = "EMAIL_VERIFIED_YN", length = 1)
-    @NotNull
-    @Size(min = 1, max = 1)
-    private String emailVerifiedYn;
-
-    @Column(name = "PROFILE_IMAGE_URL")
-    private String profileImageUrl;
-
-    @Column(name = "PROVIDER_TYPE", length = 20)
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private ProviderType providerType;
 
     @Column(name = "IMAGE")
     private String image;
@@ -63,43 +52,15 @@ public class User {
     @Column(name = "USER_INFO")
     private String userInfo;
 
-    @Column(name = "ROLE_TYPE", length = 20)
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private RoleType roleType;
-
-    @Column(name = "CREATED_AT")
-    @NotNull
-    private LocalDateTime createdAt;
-
-    @Column(name = "MODIFIED_AT")
-    @NotNull
-    private LocalDateTime modifiedAt;
-
     @OneToMany(mappedBy = "joinUser")
     private List<Join> userJoins;
+
+    @OneToMany(mappedBy = "mateUser")
+    private List<Mate> userMate;
 
     @OneToMany(mappedBy = "replyUser")
     private List<Reply> userReplys;
 
-    public User(
-            String userId,
-            String name,
-            String email,
-            String y,
-            String imageUrl,
-            ProviderType providerType,
-            RoleType user,
-            LocalDateTime now
-    ) {
-        this.userId = userId;
-        this.username = name;
-        this.password = "NO_PASS";
-        this.email = email != null ? email : "NO_EMAIL";
-        this.emailVerifiedYn = y;
-        this.profileImageUrl = imageUrl != null ? imageUrl : "";
-        this.providerType = providerType;
-        this.roleType = user;
-        this.createdAt = now;
-    }
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime createdAt;
 }

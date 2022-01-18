@@ -52,9 +52,7 @@ public class QStudy extends EntityPathBase<Study> {
 
     public final DatePath<java.time.LocalDate> startDate = createDate("startDate", java.time.LocalDate.class);
 
-    public final ListPath<SKRookie.moamoa.api.entity.join.Join, SKRookie.moamoa.api.entity.join.QJoin> studyJoins = this.<SKRookie.moamoa.api.entity.join.Join, SKRookie.moamoa.api.entity.join.QJoin>createList("studyJoins", SKRookie.moamoa.api.entity.join.Join.class, SKRookie.moamoa.api.entity.join.QJoin.class, PathInits.DIRECT2);
-
-    public final ListPath<SKRookie.moamoa.api.entity.reply.Reply, SKRookie.moamoa.api.entity.reply.QReply> studyReplys = this.<SKRookie.moamoa.api.entity.reply.Reply, SKRookie.moamoa.api.entity.reply.QReply>createList("studyReplys", SKRookie.moamoa.api.entity.reply.Reply.class, SKRookie.moamoa.api.entity.reply.QReply.class, PathInits.DIRECT2);
+    public final ListPath<SKRookie.moamoa.api.entity.mate.Mate, SKRookie.moamoa.api.entity.mate.QMate> studyMates = this.<SKRookie.moamoa.api.entity.mate.Mate, SKRookie.moamoa.api.entity.mate.QMate>createList("studyMates", SKRookie.moamoa.api.entity.mate.Mate.class, SKRookie.moamoa.api.entity.mate.QMate.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> studySeq = createNumber("studySeq", Long.class);
 

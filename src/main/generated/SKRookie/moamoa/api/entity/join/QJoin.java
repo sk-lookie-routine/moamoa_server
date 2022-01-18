@@ -24,9 +24,11 @@ public class QJoin extends EntityPathBase<Join> {
 
     public final StringPath comment = createString("comment");
 
-    public final NumberPath<Long> joinSeq = createNumber("joinSeq", Long.class);
+    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
-    public final SKRookie.moamoa.api.entity.study.QStudy joinStudy;
+    public final SKRookie.moamoa.api.entity.post.QPost joinPost;
+
+    public final NumberPath<Long> joinSeq = createNumber("joinSeq", Long.class);
 
     public final EnumPath<SKRookie.moamoa.api.enums.JoinType> joinType = createEnum("joinType", SKRookie.moamoa.api.enums.JoinType.class);
 
@@ -50,7 +52,7 @@ public class QJoin extends EntityPathBase<Join> {
 
     public QJoin(Class<? extends Join> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.joinStudy = inits.isInitialized("joinStudy") ? new SKRookie.moamoa.api.entity.study.QStudy(forProperty("joinStudy"), inits.get("joinStudy")) : null;
+        this.joinPost = inits.isInitialized("joinPost") ? new SKRookie.moamoa.api.entity.post.QPost(forProperty("joinPost"), inits.get("joinPost")) : null;
         this.joinUser = inits.isInitialized("joinUser") ? new SKRookie.moamoa.api.entity.user.QUser(forProperty("joinUser")) : null;
     }
 

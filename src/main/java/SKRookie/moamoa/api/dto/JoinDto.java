@@ -7,7 +7,7 @@ import lombok.Data;
 public class JoinDto {
     private Long joinSeq;
 
-    private Long studySeq;
+    private Long postSeq;
 
     private Long userSeq;
 

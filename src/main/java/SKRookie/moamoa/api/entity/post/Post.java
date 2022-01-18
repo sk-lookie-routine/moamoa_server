@@ -1,9 +1,9 @@
-package SKRookie.moamoa.api.entity.study;
+package SKRookie.moamoa.api.entity.post;
 
 import SKRookie.moamoa.api.entity.join.Join;
-import SKRookie.moamoa.api.entity.mate.Mate;
 import SKRookie.moamoa.api.entity.reply.Reply;
 import SKRookie.moamoa.api.entity.user.User;
+import SKRookie.moamoa.api.enums.PostType;
 import SKRookie.moamoa.api.enums.StudyType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,13 +26,13 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "STUDY")
-public class Study {
+@Table(name = "POST")
+public class Post {
     @JsonIgnore
     @Id
-    @Column(name = "STUDY_SEQ")
+    @Column(name = "POST_SEQ")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long studySeq;
+    private Long postSeq;
 
     @Column(name = "TITLE")
     private String title;
@@ -78,24 +78,18 @@ public class Study {
     @NotNull
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "USER_SEQ", referencedColumnName = "user_seq")
-    private User studyUser;
-
-    @Column(name = "LINK_STUDY")
-    private String linkStudy;
-
-    @Column(name = "LINK_NOTION")
-    private String linkNotion;
-
-    @Column(name = "LINK_CHAT")
-    private String linkChat;
+    private User postUser;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private StudyType studyType;
+    private PostType postType;
 
     @ElementCollection(fetch = FetchType.LAZY)
     private Set<String> hashTags = new HashSet<>();
 
-    @OneToMany(mappedBy = "mateStudy")
-    private List<Mate> studyMates;
+    @OneToMany(mappedBy = "joinPost")
+    private List<Join> postJoins;
+
+    @OneToMany(mappedBy = "replyPost")
+    private List<Reply> postReplys;
 }

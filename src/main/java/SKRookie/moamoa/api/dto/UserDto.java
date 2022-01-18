@@ -1,12 +1,9 @@
 package SKRookie.moamoa.api.dto;
 
-import SKRookie.moamoa.api.entity.join.Join;
-import SKRookie.moamoa.oauth.entity.ProviderType;
-import SKRookie.moamoa.oauth.entity.RoleType;
+import SKRookie.moamoa.api.enums.UserType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class UserDto {
@@ -14,25 +11,15 @@ public class UserDto {
 
     private String username;
 
-    private String password;
-
     private String email;
 
     private String userId;
 
-    private String emailVerifiedYn;
-
-    private String profileImageUrl;
-
-    private ProviderType providerType;
+    private UserType userType;
 
     private String image;
 
     private String userInfo;
 
-    private RoleType roleType;
-
     private LocalDateTime createdAt;
-
-    private LocalDateTime modifiedAt;
 }

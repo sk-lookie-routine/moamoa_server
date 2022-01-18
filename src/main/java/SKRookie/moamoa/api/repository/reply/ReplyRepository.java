@@ -12,13 +12,5 @@ import java.util.List;
 
 @Repository
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
-    List<Reply> findAllByReplyUser(User replyUser);
 
-    List<Reply> findAllByReplyStudy(Study replyStudy);
-
-    @Transactional
-    List<Reply> deleteAllByReplyUser(User replyUser);
-
-    @Transactional
-    List<Reply> deleteAllByReplyStudy(Study replyStudy);
 }

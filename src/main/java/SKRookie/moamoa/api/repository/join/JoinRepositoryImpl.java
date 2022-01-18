@@ -32,7 +32,7 @@ public class JoinRepositoryImpl implements JoinRepositoryCustom {
                 .selectFrom(join)
                 .where(
                         userIdEq(condition.getUserSeq()),
-                        studyIdEq(condition.getStudySeq()),
+                        postIdEq(condition.getPostSeq()),
                         joinTypeEq(condition.getJoinType())
                 );
         return pagingUtil.getPageImpl(pageable, query, Join.class);
@@ -41,8 +41,8 @@ public class JoinRepositoryImpl implements JoinRepositoryCustom {
         return user_id != null ? join.joinUser.userSeq.eq(user_id) : null;
     }
 
-    private BooleanExpression studyIdEq(Long study_id) {
-        return study_id != null ? join.joinStudy.studySeq.eq(study_id) : null;
+    private BooleanExpression postIdEq(Long post_id) {
+        return post_id != null ? join.joinPost.postSeq.eq(post_id) : null;
     }
 
     private BooleanExpression joinTypeEq(JoinType joinType) {

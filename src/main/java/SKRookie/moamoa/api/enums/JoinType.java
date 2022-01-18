@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum JoinType {
         WAIT("대기"),
-        APPROVED("승인됨"),
-        REFUSED("거절됨");
+        APPROVED("승인"),
+        REFUSED("거절");
 
         private String description;
 
