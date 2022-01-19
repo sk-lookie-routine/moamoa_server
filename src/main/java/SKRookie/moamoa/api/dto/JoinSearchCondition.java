@@ -10,7 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 public class JoinSearchCondition {
-    private Long studySeq;
+    private Long postSeq;
 
     private Long userSeq;
 

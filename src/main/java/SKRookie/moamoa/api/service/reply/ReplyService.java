@@ -64,21 +64,5 @@ public class ReplyService {
 
         replyRepository.deleteById(replyDto.getReplySeq());
     }
-
-    public void deleteReplyByUserSeq(UserDto userDto) {
-        List<Reply> allByReplyUser = replyRepository.findAllByReplyUser(modelMapper.map(userDto, User.class));
-
-        if (!allByReplyUser.isEmpty()) {
-            replyRepository.deleteAllByReplyUser(modelMapper.map(userDto, User.class));
-        }
-    }
-
-    public void deleteReplyByStudySeq(StudyDto studyDto) {
-        List<Reply> allByReplyStudy = replyRepository.findAllByReplyStudy(modelMapper.map(studyDto, Study.class));
-
-        if (!allByReplyStudy.isEmpty()) {
-            replyRepository.deleteAllByReplyStudy(modelMapper.map(studyDto, Study.class));
-        }
-    }
 }
 

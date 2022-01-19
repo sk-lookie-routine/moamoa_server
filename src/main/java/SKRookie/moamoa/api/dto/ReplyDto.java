@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class ReplyDto {
     private Long replySeq;
 
-    private Long studySeq;
+    private Long postSeq;
 
     private Long userSeq;
 

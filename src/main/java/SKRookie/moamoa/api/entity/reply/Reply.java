@@ -1,5 +1,6 @@
 package SKRookie.moamoa.api.entity.reply;
 
+import SKRookie.moamoa.api.entity.post.Post;
 import SKRookie.moamoa.api.entity.study.Study;
 import SKRookie.moamoa.api.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -33,9 +34,9 @@ public class Reply {
     private User replyUser;
 
     @NotNull
-    @ManyToOne(targetEntity = Study.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.MERGE})
-    @JoinColumn(name = "STUDY_SEQ", referencedColumnName = "study_seq")
-    private Study replyStudy;
+    @ManyToOne(targetEntity = Post.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.MERGE})
+    @JoinColumn(name = "POST_SEQ", referencedColumnName = "post_seq")
+    private Post replyPost;
 
     @Column(name = "CREATED_AT")
     @NotNull

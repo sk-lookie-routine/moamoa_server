@@ -1,5 +1,6 @@
 package SKRookie.moamoa.api.dto;
 
+import SKRookie.moamoa.api.enums.PostType;
 import lombok.*;
 
 @AllArgsConstructor
@@ -7,12 +8,12 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class ReplySearchCondition{
+public class PostSearchCondition {
     private Long postSeq;
 
     private Long userSeq;
 
-    private String content;
+    private PostType postType;
+
+    private String search;
 }
-
-

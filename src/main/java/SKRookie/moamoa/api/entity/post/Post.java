@@ -3,7 +3,7 @@ package SKRookie.moamoa.api.entity.post;
 import SKRookie.moamoa.api.entity.join.Join;
 import SKRookie.moamoa.api.entity.reply.Reply;
 import SKRookie.moamoa.api.entity.user.User;
-import SKRookie.moamoa.api.enums.StudyType;
+import SKRookie.moamoa.api.enums.PostType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -31,7 +30,7 @@ public class Post {
     @Id
     @Column(name = "POST_SEQ")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long studySeq;
+    private Long postSeq;
 
     @Column(name = "TITLE")
     private String title;
@@ -77,18 +76,18 @@ public class Post {
     @NotNull
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "USER_SEQ", referencedColumnName = "user_seq")
-    private User studyUser;
+    private User postUser;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private StudyType studyType;
+    private PostType postType;
 
     @ElementCollection(fetch = FetchType.LAZY)
     private Set<String> hashTags = new HashSet<>();
 
-    @OneToMany(mappedBy = "joinStudy")
-    private List<Join> studyJoins;
+    @OneToMany(mappedBy = "joinPost")
+    private List<Join> postJoins;
 
-    @OneToMany(mappedBy = "replyStudy")
-    private List<Reply> studyReplys;
+    @OneToMany(mappedBy = "replyPost")
+    private List<Reply> postReplys;
 }

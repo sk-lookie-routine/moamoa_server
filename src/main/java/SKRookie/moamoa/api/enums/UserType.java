@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum PostType {
-    READY("대기"),
-    COMPLETE("완료");
+public enum UserType {
+    NORMAL("정상"),
+    REJECT("탈퇴");
 
     private String description;
 }

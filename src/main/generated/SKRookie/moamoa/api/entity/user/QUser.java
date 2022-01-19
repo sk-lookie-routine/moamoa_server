@@ -24,19 +24,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath email = createString("email");
 
-    public final StringPath emailVerifiedYn = createString("emailVerifiedYn");
-
     public final StringPath image = createString("image");
-
-    public final DateTimePath<java.time.LocalDateTime> modifiedAt = createDateTime("modifiedAt", java.time.LocalDateTime.class);
-
-    public final StringPath password = createString("password");
-
-    public final StringPath profileImageUrl = createString("profileImageUrl");
-
-    public final EnumPath<SKRookie.moamoa.oauth.entity.ProviderType> providerType = createEnum("providerType", SKRookie.moamoa.oauth.entity.ProviderType.class);
-
-    public final EnumPath<SKRookie.moamoa.oauth.entity.RoleType> roleType = createEnum("roleType", SKRookie.moamoa.oauth.entity.RoleType.class);
 
     public final StringPath userId = createString("userId");
 
@@ -44,11 +32,15 @@ public class QUser extends EntityPathBase<User> {
 
     public final ListPath<SKRookie.moamoa.api.entity.join.Join, SKRookie.moamoa.api.entity.join.QJoin> userJoins = this.<SKRookie.moamoa.api.entity.join.Join, SKRookie.moamoa.api.entity.join.QJoin>createList("userJoins", SKRookie.moamoa.api.entity.join.Join.class, SKRookie.moamoa.api.entity.join.QJoin.class, PathInits.DIRECT2);
 
+    public final ListPath<SKRookie.moamoa.api.entity.mate.Mate, SKRookie.moamoa.api.entity.mate.QMate> userMate = this.<SKRookie.moamoa.api.entity.mate.Mate, SKRookie.moamoa.api.entity.mate.QMate>createList("userMate", SKRookie.moamoa.api.entity.mate.Mate.class, SKRookie.moamoa.api.entity.mate.QMate.class, PathInits.DIRECT2);
+
     public final StringPath username = createString("username");
 
     public final ListPath<SKRookie.moamoa.api.entity.reply.Reply, SKRookie.moamoa.api.entity.reply.QReply> userReplys = this.<SKRookie.moamoa.api.entity.reply.Reply, SKRookie.moamoa.api.entity.reply.QReply>createList("userReplys", SKRookie.moamoa.api.entity.reply.Reply.class, SKRookie.moamoa.api.entity.reply.QReply.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> userSeq = createNumber("userSeq", Long.class);
+
+    public final EnumPath<SKRookie.moamoa.api.enums.UserType> userType = createEnum("userType", SKRookie.moamoa.api.enums.UserType.class);
 
     public QUser(String variable) {
         super(User.class, forVariable(variable));

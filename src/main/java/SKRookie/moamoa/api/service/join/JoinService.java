@@ -50,23 +50,5 @@ public class JoinService {
 
         return Optional.of(modelMapper.map(join, JoinDto.class));
     }
-
-    public void deleteJoinByUserSeq(UserDto userDto) {
-
-        List<Join> allByJoinUser = joinRepository.findAllByJoinUser(modelMapper.map(userDto, User.class));
-
-        if (!allByJoinUser.isEmpty()) {
-            joinRepository.deleteAllByJoinUser(modelMapper.map(userDto, User.class));
-        }
-    }
-
-    public void deleteJoinByStudySeq(StudyDto studyDto) {
-
-        List<Join> allByJoinStudy = joinRepository.findAllByJoinStudy(modelMapper.map(studyDto, Study.class));
-
-        if (!allByJoinStudy.isEmpty()) {
-            joinRepository.deleteAllByJoinStudy(modelMapper.map(studyDto, Study.class));
-        }
-    }
 }
 

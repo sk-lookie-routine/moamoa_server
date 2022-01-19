@@ -1,10 +1,7 @@
 package SKRookie.moamoa.api.service.reply;
 
 import SKRookie.moamoa.api.dto.ReplySearchCondition;
-import SKRookie.moamoa.api.dto.StudySearchCondition;
 import SKRookie.moamoa.api.entity.reply.Reply;
-import SKRookie.moamoa.api.entity.study.Study;
-import SKRookie.moamoa.api.enums.StudyType;
 import SKRookie.moamoa.utils.PagingUtil;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
@@ -33,7 +30,7 @@ public class ReplyCustomRepositoryImpl implements ReplyCustomRepository {
         JPQLQuery<Reply> query = jpaQueryFactory
                 .selectFrom(reply)
                 .where(
-                        studySeqEq(condition.getStudySeq()),
+                        postSeqEq(condition.getPostSeq()),
                         userSeqEq(condition.getUserSeq()),
                         contentInclude(condition.getContent())
                 )
@@ -41,9 +38,9 @@ public class ReplyCustomRepositoryImpl implements ReplyCustomRepository {
 
         return pagingUtil.getPageImpl(pageable, query, Reply.class);
     }
-    private BooleanExpression studySeqEq(Long study_seq) {
+    private BooleanExpression postSeqEq(Long post_seq) {
 
-        return study_seq != null ? reply.replyStudy.studySeq.eq(study_seq) : null;
+        return post_seq != null ? reply.replyPost.postSeq.eq(post_seq) : null;
     }
 
     private BooleanExpression userSeqEq(Long user_seq) {

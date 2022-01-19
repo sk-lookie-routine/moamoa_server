@@ -1,6 +1,7 @@
 package SKRookie.moamoa.api.entity.study;
 
 import SKRookie.moamoa.api.entity.join.Join;
+import SKRookie.moamoa.api.entity.mate.Mate;
 import SKRookie.moamoa.api.entity.reply.Reply;
 import SKRookie.moamoa.api.entity.user.User;
 import SKRookie.moamoa.api.enums.StudyType;
@@ -95,9 +96,6 @@ public class Study {
     @ElementCollection(fetch = FetchType.LAZY)
     private Set<String> hashTags = new HashSet<>();
 
-    @OneToMany(mappedBy = "joinStudy")
-    private List<Join> studyJoins;
-
-    @OneToMany(mappedBy = "replyStudy")
-    private List<Reply> studyReplys;
+    @OneToMany(mappedBy = "mateStudy")
+    private List<Mate> studyMates;
 }
