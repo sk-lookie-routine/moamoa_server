@@ -19,9 +19,5 @@ public class StudySearchCondition {
 
     private List<StudyType> studyTypeList;
 
-    private String studyType;
-
     private String search;
-
-    private String origin;
 }

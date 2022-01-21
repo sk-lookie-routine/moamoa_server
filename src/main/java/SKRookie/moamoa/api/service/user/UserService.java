@@ -65,7 +65,7 @@ public class UserService {
         User byUserId = userRepository.findByUserId(userDto.getUserId());
 
         if(byUserId == null) {
-            byUserId.setCreatedAt(LocalDateTime.now());
+            userDto.setCreatedAt(LocalDateTime.now());
             byUserId = userRepository.save(modelMapper.map(userDto, User.class));
         }
 

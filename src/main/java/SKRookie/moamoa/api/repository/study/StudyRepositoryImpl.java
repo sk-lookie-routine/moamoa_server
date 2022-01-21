@@ -46,9 +46,9 @@ public class StudyRepositoryImpl implements StudyRepositoryCustom {
         return user_id != null ? study.studyUser.userSeq.eq(user_id) : null;
     }
 
-    private BooleanExpression studyTypeIn(List<StudyType> studyType) {
+    private BooleanExpression studyTypeIn(List<StudyType> studyTypeList) {
 
-        return studyType != null ? study.studyType.in(studyType) : null;
+        return studyTypeList != null ? study.studyType.in(studyTypeList) : null;
     }
 
     private BooleanExpression studyHashTagOrTitleContains(String search) {

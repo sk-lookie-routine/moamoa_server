@@ -46,9 +46,6 @@ public class Study {
     @Column(name = "HOW")
     private String how;
 
-    @Column(name = "COMMENT")
-    private String comment;
-
     @Column(name = "IMAGE")
     private String image;
 
@@ -62,10 +59,6 @@ public class Study {
     @Column(name = "MODIFIED_AT")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime modifiedAt;
-
-    @Column(name = "DEADLINE")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private LocalDate deadLine;
 
     @Column(name = "STARTDATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")

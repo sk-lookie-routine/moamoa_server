@@ -34,7 +34,7 @@ public class ReplyCustomRepositoryImpl implements ReplyCustomRepository {
                         userSeqEq(condition.getUserSeq()),
                         contentInclude(condition.getContent())
                 )
-                .orderBy(reply.createdAt.asc());
+                .orderBy(reply.createdAt.desc());
 
         return pagingUtil.getPageImpl(pageable, query, Reply.class);
     }

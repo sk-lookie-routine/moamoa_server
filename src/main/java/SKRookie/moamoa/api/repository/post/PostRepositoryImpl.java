@@ -10,6 +10,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 import static SKRookie.moamoa.api.entity.post.QPost.post;
 
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -28,7 +30,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .selectFrom(post)
                 .where(
                         userIdEq(condition.getUserSeq()),
-                        postTypeEq(condition.getPostType()),
+                        postTypeIn(condition.getPostTypeList()),
                         postHashTagOrTitleContains(condition.getSearch()),
                         postSeqEq(condition.getPostSeq())
                 )
@@ -41,9 +43,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return user_id != null ? post.postUser.userSeq.eq(user_id) : null;
     }
 
-    private BooleanExpression postTypeEq(PostType postType) {
+    private BooleanExpression postTypeIn(List<PostType> postTypeList) {
 
-        return postType != null ? post.postType.eq(postType) : null;
+        return postTypeList != null ? post.postType.in(postTypeList) : null;
     }
 
     private BooleanExpression postHashTagOrTitleContains(String search) {

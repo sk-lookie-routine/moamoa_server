@@ -3,6 +3,8 @@ package SKRookie.moamoa.api.dto;
 import SKRookie.moamoa.api.enums.PostType;
 import lombok.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -13,7 +15,7 @@ public class PostSearchCondition {
 
     private Long userSeq;
 
-    private PostType postType;
+    private List<PostType> postTypeList;
 
     private String search;
 }

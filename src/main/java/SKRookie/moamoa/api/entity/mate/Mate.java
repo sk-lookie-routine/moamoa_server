@@ -3,6 +3,7 @@ package SKRookie.moamoa.api.entity.mate;
 import SKRookie.moamoa.api.entity.study.Study;
 import SKRookie.moamoa.api.entity.user.User;
 import SKRookie.moamoa.api.enums.JoinType;
+import SKRookie.moamoa.api.enums.MateType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,7 @@ public class Mate {
     @JoinColumn(name = "STUDY_SEQ", referencedColumnName = "study_seq")
     private Study mateStudy;
 
-    @Column(name = "COMMENT")
-    private String comment;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private MateType mateType;
 }

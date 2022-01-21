@@ -39,11 +39,37 @@ public class PostService {
         return Optional.of(modelMapper.map(save, PostDto.class));
     }
 
-    public Page<PostDto> getPost(PostSearchCondition condition, Pageable pageable) {
+    public Page<PostDto> search(PostSearchCondition condition, Pageable pageable) {
         PageImpl<Post> search = postRepository.search(condition, pageable);
 
         List<PostDto> postDtos = search.stream().map(post -> modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
 
         return new PageImpl<>(postDtos, pageable, search.getTotalElements());
     }
+
+    public Optional<PostDto> findOne(PostDto postDto) {
+        Optional<Post> findOne = postRepository.findById(postDto.getPostSeq());
+
+        return Optional.of(modelMapper.map(findOne.get(), PostDto.class));
+    }
+    public Optional<PostDto> updatePost(PostDto postDto) {
+
+        Post post = postRepository.findById(postDto.getPostSeq()).get();
+
+        post.setModifiedAt(LocalDateTime.now());
+        post.setEndDate(postDto.getEndDate());
+        post.setStartDate(postDto.getStartDate());
+        post.setGoal(postDto.getGoal());
+        post.setHashTags(postDto.getHashTags());
+        post.setHow(postDto.getHow());
+        post.setInfo(postDto.getInfo());
+        post.setTitle(postDto.getTitle());
+        post.setComment(postDto.getComment());
+        post.setPostType(postDto.getPostType());
+
+        postRepository.saveAndFlush(post);
+
+        return Optional.of(modelMapper.map(post, PostDto.class));
+    }
+
 }

@@ -22,11 +22,11 @@ public class QMate extends EntityPathBase<Mate> {
 
     public static final QMate mate = new QMate("mate");
 
-    public final StringPath comment = createString("comment");
-
     public final NumberPath<Long> mateSeq = createNumber("mateSeq", Long.class);
 
     public final SKRookie.moamoa.api.entity.study.QStudy mateStudy;
+
+    public final EnumPath<SKRookie.moamoa.api.enums.MateType> mateType = createEnum("mateType", SKRookie.moamoa.api.enums.MateType.class);
 
     public final SKRookie.moamoa.api.entity.user.QUser mateUser;
 

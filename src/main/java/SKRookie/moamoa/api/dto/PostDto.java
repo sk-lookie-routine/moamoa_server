@@ -8,6 +8,7 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class PostDto {
@@ -44,7 +45,7 @@ public class PostDto {
 
     private Long userSeq;
 
-    private List<String> hashTags;
+    private Set<String> hashTags;
 
     private Long memberCount;
 }

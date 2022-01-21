@@ -31,7 +31,7 @@ public class PostController {
     public ResponseEntity<Page<PostDto>> search(PostSearchCondition condition, Pageable pageable) {
 
         // mypage 에서 요청했을 때와 전체 목록에서 요청했을 때 서로 다른 study를 보내줘야 한다.
-        Page<PostDto> post = postService.getPost(condition, pageable);
+        Page<PostDto> post = postService.search(condition, pageable);
 
         if (post.hasContent()) {
             return ResponseEntity.status(HttpStatus.OK).body(post);
@@ -52,16 +52,14 @@ public class PostController {
         return  postDto1.map(post -> ResponseEntity.status(HttpStatus.CREATED).body(post)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @PutMapping
+    @PutMapping()
     public ResponseEntity<PostDto> updatePost(@RequestBody @Validated PostDto postDto, Errors errors){
         if(errors.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
+        // update one
+        Optional<PostDto> optionalPostDto = postService.updatePost(postDto);
 
-        postDto.setModifiedAt(LocalDateTime.now());
-
-        Optional<PostDto> optionalPostDto = postService.addPost(postDto);
-
-        return  optionalPostDto.map(post -> ResponseEntity.status(HttpStatus.CREATED).body(post)).orElseGet(() -> ResponseEntity.badRequest().build());
+        return  optionalPostDto.map(post -> ResponseEntity.status(HttpStatus.OK).body(post)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 }

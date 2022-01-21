@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,8 +26,11 @@ public class JoinService {
     private final ModelMapper modelMapper;
 
     public Optional<JoinDto> addJoin(JoinDto joinDto) {
+        Join join = modelMapper.map(joinDto, Join.class);
 
-        Join savedStudyJoin = joinRepository.save(modelMapper.map(joinDto, Join.class));
+        join.setCreatedAt(LocalDateTime.now());
+
+        Join savedStudyJoin = joinRepository.save(join);
 
         return Optional.of(modelMapper.map(savedStudyJoin, JoinDto.class));
     }
