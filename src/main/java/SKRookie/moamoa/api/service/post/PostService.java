@@ -6,9 +6,12 @@ import SKRookie.moamoa.api.entity.study.Study;
 import SKRookie.moamoa.api.entity.user.User;
 import SKRookie.moamoa.api.repository.join.JoinRepository;
 import SKRookie.moamoa.api.repository.post.PostRepository;
+import SKRookie.moamoa.api.repository.reply.ReplyRepository;
 import SKRookie.moamoa.api.repository.study.StudyRepositoryCustom;
 import SKRookie.moamoa.api.repository.study.StudyRepository;
 import SKRookie.moamoa.api.repository.user.UserRepository;
+import SKRookie.moamoa.api.service.join.JoinService;
+import SKRookie.moamoa.api.service.reply.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -25,6 +28,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+
+    private final ReplyService replyService;
+
+    private final JoinService joinService;
 
     private final ModelMapper modelMapper;
 
@@ -52,6 +59,7 @@ public class PostService {
 
         return Optional.of(modelMapper.map(findOne.get(), PostDto.class));
     }
+
     public Optional<PostDto> updatePost(PostDto postDto) {
 
         Post post = postRepository.findById(postDto.getPostSeq()).get();
@@ -70,6 +78,14 @@ public class PostService {
         postRepository.saveAndFlush(post);
 
         return Optional.of(modelMapper.map(post, PostDto.class));
+    }
+
+    public void deletePost(Long id) {
+        replyService.deleteReplysByPostSeq(id);
+
+        joinService.deleteJoinsByPostSeq(id);
+
+        postRepository.deleteById(id);
     }
 
 }

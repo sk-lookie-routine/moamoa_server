@@ -3,9 +3,7 @@ package SKRookie.moamoa.api.service.reply;
 import SKRookie.moamoa.api.dto.*;
 import SKRookie.moamoa.api.entity.join.Join;
 import SKRookie.moamoa.api.entity.reply.Reply;
-import SKRookie.moamoa.api.entity.study.Study;
-import SKRookie.moamoa.api.entity.user.User;
-import SKRookie.moamoa.api.repository.join.JoinRepository;
+import SKRookie.moamoa.api.repository.reply.ReplyCustomRepository;
 import SKRookie.moamoa.api.repository.reply.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -60,9 +58,17 @@ public class ReplyService {
         return Optional.of(modelMapper.map(reply, ReplyDto.class));
     }
 
-    public void deleteReply(ReplyDto replyDto) {
+    public void deleteReply(Long reply_id) {
+        replyRepository.deleteById(reply_id);
+    }
 
-        replyRepository.deleteById(replyDto.getReplySeq());
+    public void deleteReplysByPostSeq(Long post_id)  {
+
+        List<Reply> allByReplyPost_postSeq = replyRepository.findAllByReplyPost_PostSeq(post_id);
+
+        allByReplyPost_postSeq.forEach((Reply) -> {
+            deleteReply(Reply.getReplySeq());
+        });
     }
 }
 

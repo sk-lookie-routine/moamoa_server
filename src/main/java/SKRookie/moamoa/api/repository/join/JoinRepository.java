@@ -13,8 +13,6 @@ import java.util.List;
 
 @Repository
 public interface JoinRepository extends JpaRepository<Join, Long>, JoinRepositoryCustom {
-    List<Join> findAllByJoinUser(User user);
-
-    List<Join> findAllByJoinPost(Post post);
+    List<Join> findAllByJoinPost_PostSeq(Long post_id);
 }
 

@@ -1,4 +1,4 @@
-package SKRookie.moamoa.api.service.reply;
+package SKRookie.moamoa.api.repository.reply;
 
 import SKRookie.moamoa.api.dto.ReplySearchCondition;
 import SKRookie.moamoa.api.entity.reply.Reply;

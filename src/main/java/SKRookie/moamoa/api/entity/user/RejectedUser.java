@@ -24,7 +24,6 @@ public class RejectedUser {
 
     @Column(name = "USER_ID", length = 64, unique = true)
     @NotNull
-    @Size(max = 64)
     private String userId;
 
     @Column(name = "USERNAME")

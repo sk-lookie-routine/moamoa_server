@@ -7,6 +7,7 @@ import SKRookie.moamoa.api.dto.StudySearchCondition;
 import SKRookie.moamoa.api.enums.StudyType;
 import SKRookie.moamoa.api.service.join.JoinService;
 import SKRookie.moamoa.api.service.post.PostService;
+import SKRookie.moamoa.api.service.reply.ReplyService;
 import SKRookie.moamoa.api.service.study.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -61,5 +62,15 @@ public class PostController {
         Optional<PostDto> optionalPostDto = postService.updatePost(postDto);
 
         return  optionalPostDto.map(post -> ResponseEntity.status(HttpStatus.OK).body(post)).orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @DeleteMapping()
+    public ResponseEntity deletePost(@RequestBody @Validated PostDto postDto, Errors errors){
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
+        postService.deletePost(postDto.getPostSeq());
+
+        return  ResponseEntity.ok("deleted");
     }
 }

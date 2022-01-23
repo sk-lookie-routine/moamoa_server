@@ -1,4 +1,4 @@
-package SKRookie.moamoa.api.service.reply;
+package SKRookie.moamoa.api.repository.reply;
 
 import SKRookie.moamoa.api.dto.ReplySearchCondition;
 import SKRookie.moamoa.api.entity.reply.Reply;
@@ -34,7 +34,7 @@ public class ReplyCustomRepositoryImpl implements ReplyCustomRepository {
                         userSeqEq(condition.getUserSeq()),
                         contentInclude(condition.getContent())
                 )
-                .orderBy(reply.createdAt.desc());
+                .orderBy(reply.createdAt.asc());
 
         return pagingUtil.getPageImpl(pageable, query, Reply.class);
     }

@@ -54,5 +54,18 @@ public class JoinService {
 
         return Optional.of(modelMapper.map(join, JoinDto.class));
     }
+
+    public void deleteJoin(Long join_id) {
+        joinRepository.deleteById(join_id);
+    }
+
+    public void deleteJoinsByPostSeq(Long post_id)  {
+
+        List<Join> allByJoinPost_postSeq = joinRepository.findAllByJoinPost_PostSeq(post_id);
+
+        allByJoinPost_postSeq.forEach((Join) -> {
+            deleteJoin(Join.getJoinSeq());
+        });
+    }
 }
 

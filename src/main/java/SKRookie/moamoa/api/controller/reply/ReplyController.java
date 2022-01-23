@@ -60,7 +60,7 @@ public class ReplyController {
         if(errors.hasErrors()) {
             return "error";
         }
-        replyService.deleteReply(replyDto);
+        replyService.deleteReply(replyDto.getReplySeq());
 
         return  "deleted";
     }

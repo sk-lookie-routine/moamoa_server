@@ -7,7 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum PostType {
     READY("대기"),
-    COMPLETE("완료");
+    COMPLETE("완료"),
+    DELETED("삭제");
 
     private String description;
 }

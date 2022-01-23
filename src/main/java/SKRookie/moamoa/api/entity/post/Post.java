@@ -74,7 +74,7 @@ public class Post {
     private LocalDate endDate;
 
     @NotNull
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_SEQ", referencedColumnName = "user_seq")
     private User postUser;
 
