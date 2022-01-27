@@ -84,6 +84,8 @@ public class UserService {
 
         if(optionalUser.isPresent()) {
             user.setUserType(UserType.REJECT);
+            user.setUsername("탈퇴한 회원");
+            user.setImage("profile_reject");
         }
 
         userRepository.save(user);
