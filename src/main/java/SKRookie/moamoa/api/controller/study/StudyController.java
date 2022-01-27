@@ -78,19 +78,7 @@ public class StudyController {
         StudyDto studyDto = savedStudyDto.get();
 
         // join -> mate & save
-        JoinSearchCondition condition = new JoinSearchCondition();
-        condition.setPostSeq(postDto.getPostSeq());
-        condition.setJoinType(JoinType.APPROVED);
-
-        Page<JoinDto> joins = joinService.getJoin(condition, pageable);
-        joins.forEach(join -> {
-            MateDto tmpMateDto = new MateDto();
-            tmpMateDto.setStudySeq(studyDto.getStudySeq());
-            tmpMateDto.setMateType(MateType.PROGRESS);
-            tmpMateDto.setUserSeq(join.getUserSeq());
-
-            mateService.addMate(tmpMateDto);
-        });
+        joinService.updateJoinByType(postDto, studyDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(studyDto);
     }

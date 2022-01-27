@@ -2,10 +2,14 @@ package SKRookie.moamoa.api.service.join;
 
 import SKRookie.moamoa.api.dto.*;
 import SKRookie.moamoa.api.entity.join.Join;
+import SKRookie.moamoa.api.entity.mate.Mate;
 import SKRookie.moamoa.api.entity.study.Study;
 import SKRookie.moamoa.api.entity.user.User;
+import SKRookie.moamoa.api.enums.JoinType;
+import SKRookie.moamoa.api.enums.MateType;
 import SKRookie.moamoa.api.repository.join.JoinRepositoryCustom;
 import SKRookie.moamoa.api.repository.join.JoinRepository;
+import SKRookie.moamoa.api.repository.mate.MateRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -21,6 +25,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class JoinService {
+    private final MateRepository mateRepository;
+
     private final JoinRepository joinRepository;
 
     private final ModelMapper modelMapper;
@@ -66,6 +72,26 @@ public class JoinService {
         allByJoinPost_postSeq.forEach((Join) -> {
             deleteJoin(Join.getJoinSeq());
         });
+    }
+
+    public void updateJoinByType(PostDto postDto, StudyDto studyDto) {
+        List<Join> allByJoinPost_postSeq = joinRepository.findAllByJoinPost_PostSeq(postDto.getPostSeq());
+
+        allByJoinPost_postSeq.forEach(join -> {
+            // join 이 approved 인 경우에만 생성
+            if (join.getJoinType().equals(JoinType.WAIT)) {
+                join.setJoinType(JoinType.REFUSED);
+            }
+            if (join.getJoinType().equals(JoinType.APPROVED)) {
+                MateDto tmpMateDto = new MateDto();
+                tmpMateDto.setStudySeq(studyDto.getStudySeq());
+                tmpMateDto.setMateType(MateType.PROGRESS);
+                tmpMateDto.setUserSeq(join.getJoinUser().getUserSeq());
+                mateRepository.save(modelMapper.map(tmpMateDto, Mate.class));
+            }
+        });
+        joinRepository.flush();
+        mateRepository.flush();
     }
 }
 
