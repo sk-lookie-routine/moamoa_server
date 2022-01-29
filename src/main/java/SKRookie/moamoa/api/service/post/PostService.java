@@ -74,6 +74,7 @@ public class PostService {
         post.setTitle(postDto.getTitle());
         post.setComment(postDto.getComment());
         post.setPostType(postDto.getPostType());
+        post.setMemberCount(postDto.getMemberCount());
 
         postRepository.saveAndFlush(post);
 
